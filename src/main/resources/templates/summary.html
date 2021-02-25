@@ -1,10 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
-$END$
+    <p>Pokoje do rezerwacji</p>
+    <ul th:each="room : ${rooms}">
+       <li th:text="${room.id}"></li>
+    </ul>
+
+    <form action="#" th:action="@{/summary/realize}" method="post" th:object="${client}">
+        <p>Imię: <input type="text" required th:field="*{firstName}"></p>
+        <p>Nazwisko: <input type="text" required th:field="*{lastName}" ></p>
+        <p>Adres: <input type="text" required th:field="*{phoneNumber}"></p>
+        <p>Ilość osób: <input type="number" required th:field="*{companionNumber}"></p>
+        <p><input type="submit" value="Zamów"></p>
+
+    </form>
+
 </body>
 </html>

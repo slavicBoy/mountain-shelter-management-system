@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+  <ul th:each="room : ${rooms}">
+      <li th:text="${room.id}"></li>
+      <a th:href="@{/reserve(roomId=${room.id})}">Zarezerwuj!</a>
+  </ul>
+
+  <a href="#" th:href="@{/summary}" >Przejdź do podsumowania i zarezerwuj</a>
 
 </body>
 </html>
