@@ -1,5 +1,7 @@
 package mountainshelter.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,8 +23,12 @@ public class Client {
     private String phoneNumber;
     @Column(name = "companion_number")
     private Integer companionNumber;
-    @Column(name = "reservation_day")
-    private LocalDate localDate;
+    @Column(name = "resevation_start")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate reservationDayStart;
+    @Column(name = "resevation_end")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate reservationDayEnd;
     @ManyToMany
     @JoinTable(name = "reservation", joinColumns = {@JoinColumn(name = "client_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "room_id", referencedColumnName = "id")})
@@ -31,12 +37,13 @@ public class Client {
     public Client() {
     }
 
-    public Client(String firstName, String lastName, String phoneNumber, Integer companionNumber, LocalDate localDate) {
+    public Client(String firstName, String lastName, String phoneNumber, Integer companionNumber, LocalDate reservationDayStart, LocalDate reservationDayEnd) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.companionNumber = companionNumber;
-        this.localDate = localDate;
+        this.reservationDayStart = reservationDayStart;
+        this.reservationDayEnd = reservationDayEnd;
     }
 
     public Long getId() {
@@ -79,20 +86,28 @@ public class Client {
         this.companionNumber = companionNumber;
     }
 
-    public LocalDate getLocalDate() {
-        return localDate;
-    }
-
-    public void setLocalDate(LocalDate localDate) {
-        this.localDate = localDate;
-    }
-
     public List<Room> getRooms() {
         return rooms;
     }
 
     public void setRooms(List<Room> rooms) {
         this.rooms = rooms;
+    }
+
+    public LocalDate getReservationDayStart() {
+        return reservationDayStart;
+    }
+
+    public void setReservationDayStart(LocalDate reservationDayStart) {
+        this.reservationDayStart = reservationDayStart;
+    }
+
+    public LocalDate getReservationDayEnd() {
+        return reservationDayEnd;
+    }
+
+    public void setReservationDayEnd(LocalDate reservationDayEnd) {
+        this.reservationDayEnd = reservationDayEnd;
     }
 
     public void addRoom(Room room) {

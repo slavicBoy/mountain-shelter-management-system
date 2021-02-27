@@ -13,10 +13,12 @@
     <form action="#" th:action="@{/summary/realize}" method="post" th:object="${client}">
         <p>Imię: <input type="text" required th:field="*{firstName}"></p>
         <p>Nazwisko: <input type="text" required th:field="*{lastName}" ></p>
-        <p>Adres: <input type="text" required th:field="*{phoneNumber}"></p>
+        <p>Numer fona: <input type="text" required th:field="*{phoneNumber}"></p>
         <p>Ilość osób: <input type="number" required th:field="*{companionNumber}"></p>
-        <p><input type="submit" value="Zamów"></p>
+        <p>Data początku rezerwacji: <input type="date" required th:field="*{reservationDayStart}" value="2020-02-25" min="2020-01-01" max="2020-12-31"></p>
+        <p>Data końca rezerwacji: <input type="date" required th:field="*{reservationDayEnd}" value="2020-02-25" min="2020-01-01" max="2020-12-31"></p>
 
+        <p><input type="submit" value="Zamów"></p>
     </form>
 
 </body>

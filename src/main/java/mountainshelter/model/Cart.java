@@ -29,4 +29,7 @@ public class Cart {
         this.rooms = rooms;
     }
 
+    public void clear() {
+        rooms = null;
+    }
 }

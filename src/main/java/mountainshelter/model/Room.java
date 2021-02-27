@@ -13,17 +13,21 @@ public class Room {
     @Column(name = "id")
     private Long id;
     @Column(name = "price", nullable = false)
-    private BigDecimal price;
+    private BigDecimal priceByOneNight;
     @Column(name = "for_how_many_people", nullable = false)
     private int forHowManyPeople;
     @ManyToMany(mappedBy = "rooms")
     private List<Client> clients;
+    @ManyToMany
+    @JoinTable(name = "unavailable_terms", joinColumns = {@JoinColumn(name = "room_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "data_id", referencedColumnName = "id")})
+    private List<Date> dates;
 
     public Room() {
     }
 
     public Room(BigDecimal price, int forHowManyPeople) {
-      this.price = price;
+      this.priceByOneNight = price;
       this.forHowManyPeople = forHowManyPeople;
    }
 
@@ -36,11 +40,11 @@ public class Room {
    }
 
    public BigDecimal getPrice() {
-      return price;
+      return priceByOneNight;
    }
 
    public void setPrice(BigDecimal price) {
-      this.price = price;
+      this.priceByOneNight = price;
    }
 
    public int getForHowManyPeople() {
@@ -59,17 +63,30 @@ public class Room {
       this.clients = clients;
    }
 
-   public void addClient(Client client){
+    public List<Date> getDates() {
+        return dates;
+    }
+
+    public void setDates(List<Date> dates) {
+        this.dates = dates;
+    }
+
+    public void addClient(Client client){
         if(clients == null){
             clients = new ArrayList<>();
         }
        clients.add(client);
    }
-
+    public void addDate(Date date){
+        if(dates == null){
+            dates = new ArrayList<>();
+        }
+        dates.add(date);
+    }
     @Override
     public String toString() {
         return "Room{" +
-                "price=" + price +
+                "price=" + priceByOneNight +
                 ", forHowManyPeople=" + forHowManyPeople +
                 ", clients=" + clients +
                 '}';
