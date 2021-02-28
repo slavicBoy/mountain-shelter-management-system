@@ -17,6 +17,8 @@
         <p>Ilość osób: <input type="number" required th:field="*{companionNumber}"></p>
         <p>Data początku rezerwacji: <input type="date" required th:field="*{reservationDayStart}" value="2020-02-25" min="2020-01-01" max="2020-12-31"></p>
         <p>Data końca rezerwacji: <input type="date" required th:field="*{reservationDayEnd}" value="2020-02-25" min="2020-01-01" max="2020-12-31"></p>
+        <p>Godzina początku rezerwacji: <input type="time" required></p>
+        <p>Godzina końca rezerwacji: <input type="time" required></p>
 
         <p><input type="submit" value="Zamów"></p>
     </form>

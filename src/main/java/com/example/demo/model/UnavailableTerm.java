@@ -1,11 +1,11 @@
-package mountainshelter.model;
+package com.example.demo.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "date")
-public class Date {
+@Table(name = "unavailable_term")
+public class UnavailableTerm {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,10 +16,10 @@ public class Date {
     private LocalDate endOfUnavailableTerm;
 
 
-    public Date() {
+    public UnavailableTerm() {
     }
 
-    public Date(LocalDate startOfUnavailableTerm, LocalDate endOfUnavailableTerm) {
+    public UnavailableTerm(LocalDate startOfUnavailableTerm, LocalDate endOfUnavailableTerm) {
         this.startOfUnavailableTerm = startOfUnavailableTerm;
         this.endOfUnavailableTerm = endOfUnavailableTerm;
     }
