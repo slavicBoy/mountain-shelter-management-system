@@ -6,11 +6,13 @@
 </head>
 <body>
   <ul th:each="room : ${rooms}">
-      <li th:text="${room.id}"></li>
-      <a th:href="@{/reserve(roomId=${room.id})}">Zarezerwuj!</a>
+    <p>numer</p>  <li th:text="${room.id}"></li>
+    <p>opis</p>  <li th:text="${room.description}"></li>
+    <p>dla ilu gawiedzi</p>  <li th:text="${room.forHowManyPeople}"></li>
+      <a th:href="@{/summary(roomId=${room.id})}">Zarezerwuj!</a>
   </ul>
 
-  <a href="#" th:href="@{/summary}" >Przejdź do podsumowania i zarezerwuj</a>
+<!--  <a href="#" th:href="@{/summary}" >Przejdź do podsumowania i zarezerwuj</a>-->
 
 </body>
 </html>

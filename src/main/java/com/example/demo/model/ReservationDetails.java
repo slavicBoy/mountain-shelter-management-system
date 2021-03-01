@@ -12,31 +12,28 @@ public class ReservationDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "how_many_people", nullable = false)
-    private Integer howManyPeople;
-    @Column(name = "resevation_start", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate reservationDayStart;
-    @Column(name = "resevation_end", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate reservationDayEnd;
+
     @Column(name = "date_of_adding_reservation", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfAddingReservation;
     @Column(name = "extra_information", nullable = true)
     private String extraInformation;
+    @Column(name = "email", nullable = false)
+    private String email;
     @OneToOne(mappedBy = "details")
     private Reservation reservation;
+    @ManyToOne
+    @JoinColumn(name = "worker_id")
+    private Worker worker;
+
 
     public ReservationDetails() {
     }
 
-    public ReservationDetails(Integer howManyPeople, LocalDate reservationDayStart, LocalDate reservationDayEnd, LocalDate dateOfAddingReservation, String extraInformation) {
-        this.howManyPeople = howManyPeople;
-        this.reservationDayStart = reservationDayStart;
-        this.reservationDayEnd = reservationDayEnd;
+    public ReservationDetails(Integer howManyPeople, LocalDate dateOfAddingReservation, String extraInformation, Reservation reservation) {
         this.dateOfAddingReservation = dateOfAddingReservation;
         this.extraInformation = extraInformation;
+        this.reservation = reservation;
     }
 
     public Long getId() {
@@ -45,30 +42,6 @@ public class ReservationDetails {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Integer getHowManyPeople() {
-        return howManyPeople;
-    }
-
-    public void setHowManyPeople(Integer howManyPeople) {
-        this.howManyPeople = howManyPeople;
-    }
-
-    public LocalDate getReservationDayStart() {
-        return reservationDayStart;
-    }
-
-    public void setReservationDayStart(LocalDate reservationDayStart) {
-        this.reservationDayStart = reservationDayStart;
-    }
-
-    public LocalDate getReservationDayEnd() {
-        return reservationDayEnd;
-    }
-
-    public void setReservationDayEnd(LocalDate reservationDayEnd) {
-        this.reservationDayEnd = reservationDayEnd;
     }
 
     public LocalDate getDateOfAddingReservation() {
@@ -93,5 +66,21 @@ public class ReservationDetails {
 
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
+    }
+
+    public Worker getWorker() {
+        return worker;
+    }
+
+    public void setWorker(Worker worker) {
+        this.worker = worker;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

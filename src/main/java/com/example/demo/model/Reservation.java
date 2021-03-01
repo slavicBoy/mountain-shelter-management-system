@@ -18,26 +18,33 @@ public class Reservation {
     private String firstName;
     @Column(name = "last_name", length = 30, nullable = false)
     private String lastName;
+    @Column(name = "how_many_people", nullable = false)
+    private Integer howManyPeople;
     @Column(name = "phone_number", length = 12, nullable = false)
     private String phoneNumber;
-    @Column(name = "email", nullable = false)
-    private String email;
-    @OneToOne
+    @Column(name = "resevation_start", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate reservationDayStart;
+    @Column(name = "resevation_end", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate reservationDayEnd;
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_details")
     private ReservationDetails details;
-    @ManyToMany
-    @JoinTable(name = "reservations", joinColumns = {@JoinColumn(name = "reservation_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "room_id", referencedColumnName = "id")})
-    private List<Room> rooms;
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private Room room;
 
     public Reservation() {
     }
 
-    public Reservation(String firstName, String lastName, String phoneNumber, String email) {
+    public Reservation(String firstName, String lastName, Integer howManyPeople, String phoneNumber, LocalDate reservationDayStart, LocalDate reservationDayEnd) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.howManyPeople = howManyPeople;
         this.phoneNumber = phoneNumber;
-        this.email = email;
+        this.reservationDayStart = reservationDayStart;
+        this.reservationDayEnd = reservationDayEnd;
     }
 
     public Long getId() {
@@ -64,6 +71,14 @@ public class Reservation {
         this.lastName = lastName;
     }
 
+    public Integer getHowManyPeople() {
+        return howManyPeople;
+    }
+
+    public void setHowManyPeople(Integer howManyPeople) {
+        this.howManyPeople = howManyPeople;
+    }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -72,20 +87,20 @@ public class Reservation {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getEmail() {
-        return email;
+    public LocalDate getReservationDayStart() {
+        return reservationDayStart;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setReservationDayStart(LocalDate reservationDayStart) {
+        this.reservationDayStart = reservationDayStart;
     }
 
-    public ReservationDetails getReservationDetails() {
-        return details;
+    public LocalDate getReservationDayEnd() {
+        return reservationDayEnd;
     }
 
-    public void setReservationDetails(ReservationDetails reservationDetails) {
-        this.details = reservationDetails;
+    public void setReservationDayEnd(LocalDate reservationDayEnd) {
+        this.reservationDayEnd = reservationDayEnd;
     }
 
     public ReservationDetails getDetails() {
@@ -96,18 +111,13 @@ public class Reservation {
         this.details = details;
     }
 
-    public List<Room> getRooms() {
-        return rooms;
+    public Room getRoom() {
+        return room;
     }
 
-    public void setRooms(List<Room> rooms) {
-        this.rooms = rooms;
+    public void setRoom(Room room) {
+        this.room = room;
     }
-    public void addRoom(Room room) {
-        if (rooms == null) {
-            rooms = new ArrayList<>();
-        }
-        rooms.add(room);
-    }
+
 
 }

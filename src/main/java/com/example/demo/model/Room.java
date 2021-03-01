@@ -19,15 +19,11 @@ public class Room {
     private Integer forHowManyPeople;
     @Column(name = "bathroom", nullable = false)
     private boolean isBathroom;
-    @Column(name = "how_many_place_left", nullable = false)
-    private int howManyPlaceLeft;
     @Column(name = "price_by_person", nullable = false)
     private BigDecimal pricePerPeron;
-    @ManyToMany(mappedBy = "rooms")
+    @OneToMany(mappedBy = "room")
     private List<Reservation> reservations;
-    @ManyToMany
-    @JoinTable(name = "unavailable_terms", joinColumns = {@JoinColumn(name = "room_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "data_id", referencedColumnName = "id")})
+    @OneToMany(mappedBy = "room")
     private List<UnavailableTerm> unavailableTerms;
 
     public Room() {
@@ -38,7 +34,6 @@ public class Room {
         this.forHowManyPeople = forHowManyPeople;
         this.isBathroom = isBathroom;
         this.pricePerPeron = pricePerPeron;
-        this.howManyPlaceLeft = forHowManyPeople;
     }
 
     public Long getId() {
@@ -89,30 +84,13 @@ public class Room {
         this.reservations = reservations;
     }
 
-    public List<UnavailableTerm> getUnavailableTerms() {
-        return unavailableTerms;
-    }
-
-    public void setUnavailableTerms(List<UnavailableTerm> unavailableTerms) {
-        this.unavailableTerms = unavailableTerms;
-    }
-
-    public int getHowManyPlaceLeft() {
-        return howManyPlaceLeft;
-    }
-
-    public void setHowManyPlaceLeft(int howManyPlaceLeft) {
-        this.howManyPlaceLeft = howManyPlaceLeft;
-    }
-
-    public void addClient(Reservation reservation) {
+    public void addReservation(Reservation reservation) {
         if (reservations == null) {
             reservations = new ArrayList<>();
         }
         reservations.add(reservation);
     }
-
-    public void addDate(UnavailableTerm unavailableTerm) {
+    public void addUnavailableTerm(UnavailableTerm unavailableTerm) {
         if (unavailableTerms == null) {
             unavailableTerms = new ArrayList<>();
         }

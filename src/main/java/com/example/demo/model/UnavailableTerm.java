@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "unavailable_term")
@@ -14,7 +15,9 @@ public class UnavailableTerm {
     private LocalDate startOfUnavailableTerm;
     @Column(name = "end_of_unavailable_term")
     private LocalDate endOfUnavailableTerm;
-
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private Room room;
 
     public UnavailableTerm() {
     }
@@ -46,5 +49,13 @@ public class UnavailableTerm {
 
     public void setEndOfUnavailableTerm(LocalDate endOfUnavailableTerm) {
         this.endOfUnavailableTerm = endOfUnavailableTerm;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
     }
 }

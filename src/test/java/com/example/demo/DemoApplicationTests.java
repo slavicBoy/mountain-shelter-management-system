@@ -7,7 +7,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 class DemoApplicationTests {
 
     @Test
-    void contextLoads() {
+    void add_reservation_should_add_reservationDetails_to_data_base() {
+
+
     }
 
 }
