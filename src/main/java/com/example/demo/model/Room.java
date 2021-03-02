@@ -84,6 +84,14 @@ public class Room {
         this.reservations = reservations;
     }
 
+    public List<UnavailableTerm> getUnavailableTerms() {
+        return unavailableTerms;
+    }
+
+    public void setUnavailableTerms(List<UnavailableTerm> unavailableTerms) {
+        this.unavailableTerms = unavailableTerms;
+    }
+
     public void addReservation(Reservation reservation) {
         if (reservations == null) {
             reservations = new ArrayList<>();
@@ -96,4 +104,6 @@ public class Room {
         }
         unavailableTerms.add(unavailableTerm);
     }
+
+
 }

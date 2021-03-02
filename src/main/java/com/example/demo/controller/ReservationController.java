@@ -40,15 +40,21 @@ public class ReservationController {
     }
 
     @PostMapping("/summary/realize")
-    public String realize(@ModelAttribute Reservation reservation, @ModelAttribute ReservationDetails reservationDetails, Model model){
+    public String realize(@ModelAttribute Reservation reservation, @ModelAttribute ReservationDetails reservationDetails){
+        CheckAndSetDate checkAndSetDate = new CheckAndSetDate();
         Room room = roomToReservation.getRoom();
         Room roomFromDataBase = roomRepository.getOne(room.getId());
-        reservation.setRoom(roomFromDataBase);
-        reservationDetails.setDateOfAddingReservation(LocalDate.now());
-        reservation.setDetails(reservationDetails);
-        roomFromDataBase.addReservation(reservation);
-        reservationDetails.setReservation(reservation);
-        reservationRepository.save(reservation);
+        boolean isTermAvailable = checkAndSetDate.ifRoomsAvailable(room, roomRepository, reservation, unavailableTermRepository);
+        if (!isTermAvailable) {
+            return "redirect:roomIsUnavailable";
+        } else {
+            reservation.setRoom(roomFromDataBase);
+            reservationDetails.setDateOfAddingReservation(LocalDate.now());
+            reservation.setDetails(reservationDetails);
+            roomFromDataBase.addReservation(reservation);
+            reservationDetails.setReservation(reservation);
+            reservationRepository.save(reservation);
+        }
         return "reservationDone";
     }
 
