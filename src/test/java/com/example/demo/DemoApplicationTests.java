@@ -116,7 +116,7 @@ class DemoApplicationTests {
              isTermFree = false;
          }
          //then
-         assertThat(isTermFree, is(true));
+         assertThat(isTermFree, is(false));
      }
 
 
