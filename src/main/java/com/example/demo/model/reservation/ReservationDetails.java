@@ -1,5 +1,7 @@
-package com.example.demo.model;
+package com.example.demo.model.reservation;
 
+import com.example.demo.model.Worker;
+import com.example.demo.model.reservation.Reservation;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -13,12 +15,12 @@ public class ReservationDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "date_of_adding_reservation", nullable = false)
+    @Column(name = "date_of_adding_reservation")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfAddingReservation;
     @Column(name = "extra_information", nullable = true)
     private String extraInformation;
-    @Column(name = "email", nullable = false)
+    @Column(name = "email")
     private String email;
     @OneToOne(mappedBy = "details")
     private Reservation reservation;
@@ -82,5 +84,16 @@ public class ReservationDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+
+    @Override
+    public String toString() {
+        return "ReservationDetails{" +
+                ", dateOfAddingReservation=" + dateOfAddingReservation +
+                ", extraInformation='" + extraInformation + '\'' +
+                ", email='" + email + '\'' +
+
+                '}';
     }
 }

@@ -1,12 +1,11 @@
 package com.example.demo.model;
 
 
+import com.example.demo.model.reservation.Reservation;
+import com.example.demo.model.room.Room;
 import com.example.demo.repositories.RoomRepository;
 import com.example.demo.repositories.UnavailableTermRepository;
-
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class CheckAndSetDate {

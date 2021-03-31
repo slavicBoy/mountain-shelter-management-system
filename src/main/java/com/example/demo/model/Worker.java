@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.example.demo.model.reservation.ReservationDetails;
+
 import javax.persistence.*;
 import java.util.List;
 

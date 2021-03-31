@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.example.demo.model.room.Room;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 @Component

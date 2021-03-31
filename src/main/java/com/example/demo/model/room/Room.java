@@ -1,9 +1,10 @@
-package com.example.demo.model;
+package com.example.demo.model.room;
 
+import com.example.demo.model.reservation.Reservation;
+import com.example.demo.model.UnavailableTerm;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -15,12 +16,14 @@ public class Room {
     private Long id;
     @Column(name = "description", nullable = true, length = 200)
     private String description;
-    @Column(name = "for_how_many_people", nullable = false)
+    @Column(name = "for_how_many_people")
     private Integer forHowManyPeople;
-    @Column(name = "bathroom", nullable = false)
+    @Column(name = "bathroom")
     private boolean isBathroom;
-    @Column(name = "price_by_person", nullable = false)
+    @Column(name = "price_by_person")
     private BigDecimal pricePerPeron;
+    @Column(name = "img_url")
+    private String imgUrl;
     @OneToMany(mappedBy = "room")
     private List<Reservation> reservations;
     @OneToMany(mappedBy = "room")
@@ -29,11 +32,13 @@ public class Room {
     public Room() {
     }
 
-    public Room(String description, Integer forHowManyPeople, boolean isBathroom, BigDecimal pricePerPeron) {
+    public Room(String description, Integer forHowManyPeople, boolean isBathroom, BigDecimal pricePerPeron, String imgUrl) {
         this.description = description;
         this.forHowManyPeople = forHowManyPeople;
         this.isBathroom = isBathroom;
         this.pricePerPeron = pricePerPeron;
+        this.imgUrl = imgUrl;
+
     }
 
     public Long getId() {
@@ -92,12 +97,21 @@ public class Room {
         this.unavailableTerms = unavailableTerms;
     }
 
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
     public void addReservation(Reservation reservation) {
         if (reservations == null) {
             reservations = new ArrayList<>();
         }
         reservations.add(reservation);
     }
+
     public void addUnavailableTerm(UnavailableTerm unavailableTerm) {
         if (unavailableTerms == null) {
             unavailableTerms = new ArrayList<>();

@@ -1,11 +1,10 @@
-package com.example.demo.model;
+package com.example.demo.model.reservation;
 
+import com.example.demo.model.room.Room;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "reservation")
@@ -14,18 +13,18 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "first_name", length = 20, nullable = false)
+    @Column(name = "first_name", length = 20)
     private String firstName;
-    @Column(name = "last_name", length = 30, nullable = false)
+    @Column(name = "last_name", length = 30)
     private String lastName;
-    @Column(name = "how_many_people", nullable = false)
+    @Column(name = "how_many_people")
     private Integer howManyPeople;
-    @Column(name = "phone_number", length = 12, nullable = false)
+    @Column(name = "phone_number", length = 12)
     private String phoneNumber;
-    @Column(name = "resevation_start", nullable = false)
+    @Column(name = "resevation_start")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate reservationDayStart;
-    @Column(name = "resevation_end", nullable = false)
+    @Column(name = "resevation_end", nullable = true)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate reservationDayEnd;
     @OneToOne(cascade = CascadeType.ALL)
@@ -119,5 +118,17 @@ public class Reservation {
         this.room = room;
     }
 
-
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", howManyPeople=" + howManyPeople +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", reservationDayStart=" + reservationDayStart +
+                ", reservationDayEnd=" + reservationDayEnd +
+                ", details=" + details +
+                ", room=" + room +
+                '}';
+    }
 }

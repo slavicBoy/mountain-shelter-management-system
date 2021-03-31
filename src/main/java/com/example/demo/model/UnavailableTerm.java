@@ -1,8 +1,9 @@
 package com.example.demo.model;
 
+import com.example.demo.model.room.Room;
+
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Table(name = "unavailable_term")
