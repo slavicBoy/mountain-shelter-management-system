@@ -2,7 +2,7 @@ package com.example.demo.model.room;
 
 public class RoomMapper {
 
-    static RoomDto toDto(Room room){
+    public static RoomDto toDto(Room room){
         RoomDto dto = new RoomDto();
         dto.setId(room.getId());
         dto.setDescription(room.getDescription());
@@ -12,4 +12,13 @@ public class RoomMapper {
         dto.setImgUrl(room.getImgUrl());
         return dto;
     }
+
+//    public static Room toEntity(RoomDto roomDto){
+//
+//
+//
+//
+//    }
+
+
 }
