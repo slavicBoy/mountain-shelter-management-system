@@ -35,6 +35,7 @@ public class ReservationService {
             return null;
         }
         reservation.getDetails().setDateOfAddingReservation(LocalDate.now());
+
         reservation.setRoom(room);
         reservationRepository.save(reservation);
         return reservation;

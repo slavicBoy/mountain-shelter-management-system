@@ -27,7 +27,7 @@ public class ReservationController {
     public void makeReservation(@PathVariable Long id, @RequestBody Reservation reservation) {
         Reservation save = reservationService.save(reservation, id);
         if (save == null) {
-            System.out.println("niech lewica stąd sie zmyje na otwarcie parasola");
+            System.out.println("Pokój niedostępny");
         }
     }
 
