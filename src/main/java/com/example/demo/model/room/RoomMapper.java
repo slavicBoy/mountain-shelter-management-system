@@ -13,12 +13,5 @@ public class RoomMapper {
         return dto;
     }
 
-//    public static Room toEntity(RoomDto roomDto){
-//
-//
-//
-//
-//    }
-
 
 }
