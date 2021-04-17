@@ -1,7 +1,7 @@
-package com.example.demo.model;
+package com.example.demo.model.reservation;
 
 
-import com.example.demo.model.reservation.Reservation;
+import com.example.demo.model.unavailableTerm.UnavailableTerm;
 import com.example.demo.model.room.Room;
 import com.example.demo.repositories.RoomRepository;
 import com.example.demo.repositories.UnavailableTermRepository;
@@ -14,33 +14,36 @@ import java.util.List;
 public class CheckAndSetDate {
 
 
-    public boolean ifRoomAvailable(Room room, RoomRepository roomRepository, Reservation reservation, UnavailableTermRepository unavailableTermRepository) {
+    public UnavailableTerm ifRoomAvailable(Room room, RoomRepository roomRepository, Reservation reservation, UnavailableTermRepository unavailableTermRepository) {
         LocalDate reservationDayStart = reservation.getReservationDayStart();
         LocalDate reservationDayEnd = reservation.getReservationDayEnd();
         List<UnavailableTerm> unavailableTerms = roomRepository.getOne(room.getId()).getUnavailableTerms();
         for (UnavailableTerm unavailableTerm : unavailableTerms) {
             if (unavailableTerm.getStartOfUnavailableTerm().isAfter(reservationDayStart)) {
                 if (!reservationDayEnd.isBefore(unavailableTerm.getStartOfUnavailableTerm())) {
-                    return false;
+                    return null;
                 }
             } else if (unavailableTerm.getStartOfUnavailableTerm().isBefore(reservationDayStart)) {
                 if (!reservationDayStart.isAfter(unavailableTerm.getEndOfUnavailableTerm())) {
-                    return false;
+                    return null;
                 }
             } else if (unavailableTerm.getStartOfUnavailableTerm().isEqual(reservationDayStart)) {
-                return false;
+                return null;
             }
         }
-        setDatesOnRoom(roomRepository, reservationDayStart, reservationDayEnd, room, unavailableTermRepository);
-        return true;
+        UnavailableTerm unavailableTerm = createUnavailableTerm(reservationDayStart, reservationDayEnd);
+        setDatesOnRoom(roomRepository, unavailableTerm, room, unavailableTermRepository);
+        return unavailableTerm;
     }
 
-    public void setDatesOnRoom(RoomRepository roomRepository, LocalDate reservationDayStart, LocalDate reservationDayEnd, Room room, UnavailableTermRepository unavailableTermRepository) {
-        UnavailableTerm unavailableTerm = new UnavailableTerm(reservationDayStart, reservationDayEnd);
+    private UnavailableTerm createUnavailableTerm(LocalDate reservationDayStart, LocalDate reservationDayEnd) {
+        return new UnavailableTerm(reservationDayStart, reservationDayEnd);
+    }
+
+    public void setDatesOnRoom(RoomRepository roomRepository, UnavailableTerm unavailableTerm, Room room, UnavailableTermRepository unavailableTermRepository) {
         Room roomFromDataBase = roomRepository.getOne(room.getId());
         roomFromDataBase.addUnavailableTerm(unavailableTerm);
         unavailableTerm.setRoom(roomFromDataBase);
-        unavailableTermRepository.save(unavailableTerm);
     }
 }
 

@@ -1,5 +1,6 @@
-package com.example.demo.model;
+package com.example.demo.model.unavailableTerm;
 
+import com.example.demo.model.reservation.Reservation;
 import com.example.demo.model.room.Room;
 
 import javax.persistence.*;
@@ -19,6 +20,9 @@ public class UnavailableTerm {
     @ManyToOne
     @JoinColumn(name = "room_id")
     private Room room;
+    @OneToOne(mappedBy = "unavailableTerm")
+    private Reservation reservation;
+
 
     public UnavailableTerm() {
     }
@@ -58,5 +62,13 @@ public class UnavailableTerm {
 
     public void setRoom(Room room) {
         this.room = room;
+    }
+
+    public Reservation getReservation() {
+        return reservation;
+    }
+
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
     }
 }

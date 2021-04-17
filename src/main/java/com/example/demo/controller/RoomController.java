@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.reservation.Reservation;
-import com.example.demo.model.reservation.ReservationService;
+
 import com.example.demo.model.room.RoomDto;
 import com.example.demo.model.room.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;

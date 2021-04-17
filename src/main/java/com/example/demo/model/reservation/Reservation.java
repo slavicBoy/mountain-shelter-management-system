@@ -1,6 +1,7 @@
 package com.example.demo.model.reservation;
 
 import com.example.demo.model.room.Room;
+import com.example.demo.model.unavailableTerm.UnavailableTerm;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -33,6 +34,9 @@ public class Reservation {
     @ManyToOne
     @JoinColumn(name = "room_id")
     private Room room;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "unavailable_term_id")
+    private UnavailableTerm unavailableTerm;
 
     public Reservation() {
     }
@@ -118,6 +122,14 @@ public class Reservation {
         this.room = room;
     }
 
+    public UnavailableTerm getUnavailableTerm() {
+        return unavailableTerm;
+    }
+
+    public void setUnavailableTerm(UnavailableTerm unavailableTerm) {
+        this.unavailableTerm = unavailableTerm;
+    }
+
     @Override
     public String toString() {
         return "Reservation{" +
@@ -131,4 +143,7 @@ public class Reservation {
                 ", room=" + room +
                 '}';
     }
+
+
 }
+

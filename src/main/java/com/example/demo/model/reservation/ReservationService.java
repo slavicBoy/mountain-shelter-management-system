@@ -1,8 +1,7 @@
 package com.example.demo.model.reservation;
 
-import com.example.demo.model.CheckAndSetDate;
-import com.example.demo.model.UnavailableTerm;
 import com.example.demo.model.room.Room;
+import com.example.demo.model.unavailableTerm.UnavailableTerm;
 import com.example.demo.repositories.ReservationRepository;
 import com.example.demo.repositories.RoomRepository;
 import com.example.demo.repositories.UnavailableTermRepository;
@@ -31,12 +30,12 @@ public class ReservationService {
 
     public Reservation create(Reservation reservation, Long id) {
         Room room = roomRepository.getOne(id);
-        boolean isRoomAvailable = checkAndSetDate.ifRoomAvailable(room, roomRepository, reservation, unavailableTermRepository);
-        if (!isRoomAvailable) {
+        UnavailableTerm unavailableTerm = checkAndSetDate.ifRoomAvailable(room, roomRepository, reservation, unavailableTermRepository);
+        if (unavailableTerm == null) {
             return null;
         }
         reservation.getDetails().setDateOfAddingReservation(LocalDate.now());
-
+        reservation.setUnavailableTerm(unavailableTerm);
         reservation.setRoom(room);
         reservationRepository.save(reservation);
         return reservation;

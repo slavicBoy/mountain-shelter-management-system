@@ -1,7 +1,8 @@
 package com.example.demo.model.room;
 
 import com.example.demo.model.reservation.Reservation;
-import com.example.demo.model.UnavailableTerm;
+import com.example.demo.model.unavailableTerm.UnavailableTerm;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class Room {
     private List<Reservation> reservations;
     @OneToMany(mappedBy = "room")
     private List<UnavailableTerm> unavailableTerms;
+
 
     public Room() {
     }
@@ -92,6 +94,8 @@ public class Room {
     public List<UnavailableTerm> getUnavailableTerms() {
         return unavailableTerms;
     }
+
+
 
     public void setUnavailableTerms(List<UnavailableTerm> unavailableTerms) {
         this.unavailableTerms = unavailableTerms;

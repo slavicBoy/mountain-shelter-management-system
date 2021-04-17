@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.*;
 import com.example.demo.model.reservation.Reservation;
 import com.example.demo.model.reservation.ReservationDto;
 import com.example.demo.model.reservation.ReservationService;
@@ -45,7 +44,6 @@ public class ReservationController {
 
     @PutMapping("/reservations/{id}")
     public ReservationDto updateReservation(@PathVariable Long id, @RequestBody Reservation reservation) {
-        System.out.println("dupa");
         return reservationService.updateReservation(id, reservation);
     }
 

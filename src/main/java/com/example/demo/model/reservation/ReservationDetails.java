@@ -1,7 +1,6 @@
 package com.example.demo.model.reservation;
 
-import com.example.demo.model.Worker;
-import com.example.demo.model.reservation.Reservation;
+import com.example.demo.model.worker.Worker;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
