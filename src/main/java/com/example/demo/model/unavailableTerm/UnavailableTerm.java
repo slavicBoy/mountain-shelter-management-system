@@ -17,11 +17,14 @@ public class UnavailableTerm {
     private LocalDate startOfUnavailableTerm;
     @Column(name = "end_of_unavailable_term")
     private LocalDate endOfUnavailableTerm;
+    @Column(name = "places_available")
+    private Integer placesAvailable;
     @ManyToOne
     @JoinColumn(name = "room_id")
     private Room room;
     @OneToOne(mappedBy = "unavailableTerm")
     private Reservation reservation;
+
 
 
     public UnavailableTerm() {
@@ -70,5 +73,13 @@ public class UnavailableTerm {
 
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
+    }
+
+    public Integer getPlacesAvailable() {
+        return placesAvailable;
+    }
+
+    public void setPlacesAvailable(Integer placesAvailable) {
+        this.placesAvailable = placesAvailable;
     }
 }

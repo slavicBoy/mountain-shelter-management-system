@@ -30,7 +30,7 @@ public class ReservationService {
 
     public Reservation create(Reservation reservation, Long id) {
         Room room = roomRepository.getOne(id);
-        UnavailableTerm unavailableTerm = checkAndSetDate.ifRoomAvailable(room, roomRepository, reservation, unavailableTermRepository);
+        UnavailableTerm unavailableTerm = checkAndSetDate.isRoomAvailable(room, roomRepository, reservation, unavailableTermRepository);
         if (unavailableTerm == null) {
             return null;
         }

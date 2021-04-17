@@ -14,7 +14,7 @@ import java.util.List;
 public class CheckAndSetDate {
 
 
-    public UnavailableTerm ifRoomAvailable(Room room, RoomRepository roomRepository, Reservation reservation, UnavailableTermRepository unavailableTermRepository) {
+    public UnavailableTerm isRoomAvailable(Room room, RoomRepository roomRepository, Reservation reservation, UnavailableTermRepository unavailableTermRepository) {
         LocalDate reservationDayStart = reservation.getReservationDayStart();
         LocalDate reservationDayEnd = reservation.getReservationDayEnd();
         List<UnavailableTerm> unavailableTerms = roomRepository.getOne(room.getId()).getUnavailableTerms();
@@ -32,7 +32,7 @@ public class CheckAndSetDate {
             }
         }
         UnavailableTerm unavailableTerm = createUnavailableTerm(reservationDayStart, reservationDayEnd);
-        setDatesOnRoom(roomRepository, unavailableTerm, room, unavailableTermRepository);
+        setDatesOnRoom(roomRepository, unavailableTerm, room, reservation);
         return unavailableTerm;
     }
 
@@ -40,10 +40,11 @@ public class CheckAndSetDate {
         return new UnavailableTerm(reservationDayStart, reservationDayEnd);
     }
 
-    public void setDatesOnRoom(RoomRepository roomRepository, UnavailableTerm unavailableTerm, Room room, UnavailableTermRepository unavailableTermRepository) {
+    public void setDatesOnRoom(RoomRepository roomRepository, UnavailableTerm unavailableTerm, Room room, Reservation reservation) {
         Room roomFromDataBase = roomRepository.getOne(room.getId());
         roomFromDataBase.addUnavailableTerm(unavailableTerm);
         unavailableTerm.setRoom(roomFromDataBase);
+        unavailableTerm.setPlacesAvailable(room.getForHowManyPeople() - reservation.getHowManyPeople());
     }
 }
 
