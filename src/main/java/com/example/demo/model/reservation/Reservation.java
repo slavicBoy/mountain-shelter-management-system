@@ -22,10 +22,10 @@ public class Reservation {
     private Integer howManyPeople;
     @Column(name = "phone_number", length = 12)
     private String phoneNumber;
-    @Column(name = "resevation_start")
+    @Column(name = "reservation_start")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate reservationDayStart;
-    @Column(name = "resevation_end", nullable = true)
+    @Column(name = "reservation_end", nullable = true)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate reservationDayEnd;
     @OneToOne(cascade = CascadeType.ALL)
@@ -39,6 +39,7 @@ public class Reservation {
     private UnavailableTerm unavailableTerm;
 
     public Reservation() {
+
     }
 
     public Reservation(String firstName, String lastName, Integer howManyPeople, String phoneNumber, LocalDate reservationDayStart, LocalDate reservationDayEnd) {

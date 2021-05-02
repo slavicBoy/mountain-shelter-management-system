@@ -40,7 +40,6 @@ public class Room {
         this.isBathroom = isBathroom;
         this.pricePerPeron = pricePerPeron;
         this.imgUrl = imgUrl;
-
     }
 
     public Long getId() {

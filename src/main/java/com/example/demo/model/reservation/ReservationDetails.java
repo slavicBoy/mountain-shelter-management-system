@@ -1,6 +1,5 @@
 package com.example.demo.model.reservation;
 
-import com.example.demo.model.worker.Worker;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -23,9 +22,7 @@ public class ReservationDetails {
     private String email;
     @OneToOne(mappedBy = "details")
     private Reservation reservation;
-    @ManyToOne
-    @JoinColumn(name = "worker_id")
-    private Worker worker;
+
 
 
     public ReservationDetails() {
@@ -67,14 +64,6 @@ public class ReservationDetails {
 
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
-    }
-
-    public Worker getWorker() {
-        return worker;
-    }
-
-    public void setWorker(Worker worker) {
-        this.worker = worker;
     }
 
     public String getEmail() {

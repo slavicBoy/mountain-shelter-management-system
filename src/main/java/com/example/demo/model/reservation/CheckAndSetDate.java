@@ -4,7 +4,6 @@ package com.example.demo.model.reservation;
 import com.example.demo.model.unavailableTerm.UnavailableTerm;
 import com.example.demo.model.room.Room;
 import com.example.demo.repositories.RoomRepository;
-import com.example.demo.repositories.UnavailableTermRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -49,16 +48,17 @@ public class CheckAndSetDate {
 
         if (dateToCompare.size() > 0) {
             int dateWithTheLeastAmountOfPeople = compareDate(dateToCompare);
-            System.out.println(dateWithTheLeastAmountOfPeople);
             boolean arePlacesAvailable = arePlacesAvailable(reservation, dateWithTheLeastAmountOfPeople);
             if (!arePlacesAvailable)
                 return null;
             else {
                 UnavailableTerm unavailableTerm = createUnavailableTerm(reservationDayStart, reservationDayEnd);
                 setDateOnRoomWhenAnotherReservation(dateWithTheLeastAmountOfPeople, unavailableTerm, room, reservation);
+                System.out.println("Pozostała ilość miejsc: " + dateWithTheLeastAmountOfPeople);
                 return unavailableTerm;
             }
         }
+        System.out.println("Pierwsza rejestracja w tej dacie");
         UnavailableTerm unavailableTerm = createUnavailableTerm(reservationDayStart, reservationDayEnd);
         setDateOnRoomWhenFirstReservation(unavailableTerm, room, reservation);
         return unavailableTerm;
@@ -91,7 +91,6 @@ public class CheckAndSetDate {
         roomFromDataBase.addUnavailableTerm(unavailableTerm);
         unavailableTerm.setRoom(roomFromDataBase);
         unavailableTerm.setPlacesAvailable(dateWithTheLastAmountOfPeople - reservation.getHowManyPeople());
-
     }
 }
 

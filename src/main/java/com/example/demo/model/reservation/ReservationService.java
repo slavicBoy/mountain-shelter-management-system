@@ -50,7 +50,6 @@ public class ReservationService {
 
     public ReservationDto findById(Long id) {
         return ReservationMapper.toDto(reservationRepository.getOne(id));
-
     }
 
     public ReservationDto updateReservation(Long id, Reservation updatedReservation) {
