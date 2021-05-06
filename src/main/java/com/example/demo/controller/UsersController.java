@@ -54,7 +54,7 @@ public class UsersController {
         }
 
 
-        User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword()), signUpRequest.getFirstName(), signUpRequest.getLastName());
+        User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword()), signUpRequest.getFirstName(), signUpRequest.getLastName(), signUpRequest.getNotification());
 
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
@@ -95,12 +95,16 @@ public class UsersController {
         return userService.findById(id);
     }
 
+    @GetMapping("/workers/notification/{id}")
+    @PreAuthorize("hasRole('OWNER') or hasRole('WORKER')")
+    public int getNotification(@PathVariable Long id) {
+        return userService.getAmountOfNotification(id);
+    }
+
     @PutMapping("/workers/{id}")
     @PreAuthorize("hasRole('OWNER')")
     public UserDto updateReservation(@PathVariable Long id, @RequestBody User user) {
         return userService.updateUser(id, user);
-
-
     }
 
     @DeleteMapping("/workers/{id}")

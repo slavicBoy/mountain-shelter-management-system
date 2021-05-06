@@ -22,7 +22,9 @@ public class SignupRequest {
     @Size(max = 50)
     @Email
     private String email;
-    
+
+    private int notification;
+
     private Set<String> role;
     
     @NotBlank
@@ -68,7 +70,15 @@ public class SignupRequest {
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
+    public int getNotification() {
+        return notification;
+    }
+
+    public void setNotification(int notification) {
+        this.notification = notification;
+    }
+
     public Set<String> getRole() {
       return this.role;
     }

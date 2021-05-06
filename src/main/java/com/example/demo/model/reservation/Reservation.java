@@ -19,7 +19,7 @@ public class Reservation {
     @Column(name = "last_name", length = 30)
     private String lastName;
     @Column(name = "how_many_people")
-    private Integer howManyPeople;
+    private int howManyPeople;
     @Column(name = "phone_number", length = 12)
     private String phoneNumber;
     @Column(name = "reservation_start")
@@ -42,7 +42,7 @@ public class Reservation {
 
     }
 
-    public Reservation(String firstName, String lastName, Integer howManyPeople, String phoneNumber, LocalDate reservationDayStart, LocalDate reservationDayEnd) {
+    public Reservation(String firstName, String lastName, int howManyPeople, String phoneNumber, LocalDate reservationDayStart, LocalDate reservationDayEnd) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.howManyPeople = howManyPeople;
@@ -75,11 +75,11 @@ public class Reservation {
         this.lastName = lastName;
     }
 
-    public Integer getHowManyPeople() {
+    public int getHowManyPeople() {
         return howManyPeople;
     }
 
-    public void setHowManyPeople(Integer howManyPeople) {
+    public void setHowManyPeople(int howManyPeople) {
         this.howManyPeople = howManyPeople;
     }
 
