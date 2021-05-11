@@ -3,9 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.model.reservation.Reservation;
 import com.example.demo.model.reservation.ReservationDto;
 import com.example.demo.model.reservation.ReservationService;
-import com.example.demo.repositories.ReservationRepository;
-import com.example.demo.repositories.RoomRepository;
-import com.example.demo.repositories.UnavailableTermRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +18,7 @@ public class ReservationController {
 
 
     @Autowired
-    public ReservationController(ReservationService reservationService, RoomRepository roomRepository, ReservationRepository reservationRepository, UnavailableTermRepository unavailableTermRepository) {
+    public ReservationController(ReservationService reservationService) {
         this.reservationService = reservationService;
     }
 

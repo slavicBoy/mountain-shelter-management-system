@@ -25,7 +25,7 @@ public class Reservation {
     @Column(name = "reservation_start")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate reservationDayStart;
-    @Column(name = "reservation_end", nullable = true)
+    @Column(name = "reservation_end")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate reservationDayEnd;
     @OneToOne(cascade = CascadeType.ALL)

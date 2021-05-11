@@ -16,8 +16,7 @@ import java.util.stream.IntStream;
 public class CheckAndSetDate {
 
     private RoomRepository roomRepository;
-    private boolean wasAnotherReservationAdded = false;
-    int i = 0;
+
 
     @Autowired
     public CheckAndSetDate(RoomRepository roomRepository) {

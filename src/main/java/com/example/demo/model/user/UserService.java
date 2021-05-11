@@ -45,9 +45,14 @@ public class UserService {
         return UserMapper.toDto(userRepository.getOne(id));
     }
 
-    public int getAmountOfNotification(Long id) {
+    public int getAmountOfNotifications(Long id) {
         User user = userRepository.getOne(id);
         return user.getNotification();
     }
 
+    public void clearNotifications(Long id) {
+        User user = userRepository.getOne(id);
+        user.setNotification(0);
+        userRepository.save(user);
+    }
 }

@@ -84,7 +84,7 @@ public class UsersController {
     }
 
     @GetMapping("/workers")
-    @PreAuthorize("hasRole('OWNER')")
+//    @PreAuthorize("hasRole('OWNER')")
     public List<UserDto> findAll() {
         return userService.findAll();
     }
@@ -98,7 +98,13 @@ public class UsersController {
     @GetMapping("/workers/notification/{id}")
     @PreAuthorize("hasRole('OWNER') or hasRole('WORKER')")
     public int getNotification(@PathVariable Long id) {
-        return userService.getAmountOfNotification(id);
+        return userService.getAmountOfNotifications(id);
+    }
+
+    @GetMapping("/workers/notification/clear/{id}")
+    @PreAuthorize("hasRole('OWNER') or hasRole('WORKER')")
+    public void clearNotification(@PathVariable Long id) {
+        userService.clearNotifications(id);
     }
 
     @PutMapping("/workers/{id}")

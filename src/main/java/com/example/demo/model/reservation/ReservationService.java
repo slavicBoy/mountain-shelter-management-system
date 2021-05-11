@@ -2,9 +2,11 @@ package com.example.demo.model.reservation;
 
 import com.example.demo.model.room.Room;
 import com.example.demo.model.unavailableTerm.UnavailableTerm;
+import com.example.demo.model.user.User;
 import com.example.demo.repositories.ReservationRepository;
 import com.example.demo.repositories.RoomRepository;
 import com.example.demo.repositories.UnavailableTermRepository;
+import com.example.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,10 @@ public class ReservationService {
     private RoomRepository roomRepository;
     private CheckAndSetDate checkAndSetDate;
     private UnavailableTermRepository unavailableTermRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
 
     @Autowired
     public ReservationService(ReservationRepository reservationRepository, RoomRepository roomRepository, UnavailableTermRepository unavailableTermRepository, CheckAndSetDate checkAndSetDate) {
@@ -38,7 +44,15 @@ public class ReservationService {
         reservation.setUnavailableTerm(unavailableTerm);
         reservation.setRoom(room);
         reservationRepository.save(reservation);
+        addNewNotification();
         return reservation;
+    }
+
+    private void addNewNotification() {
+        for (User user : userRepository.findAll()) {
+            user.incrementNotification();
+            userRepository.save(user);
+        }
     }
 
     public List<ReservationDto> findAll() {
