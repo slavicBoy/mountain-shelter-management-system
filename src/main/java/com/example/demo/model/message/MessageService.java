@@ -1,6 +1,8 @@
 package com.example.demo.model.message;
 
+import com.example.demo.model.user.User;
 import com.example.demo.repositories.MessageRepository;
+import com.example.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,15 +16,23 @@ import java.util.stream.Collectors;
 public class MessageService {
 
     private MessageRepository messageRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    public MessageService(MessageRepository messageRepository) {
+    public MessageService(MessageRepository messageRepository, UserRepository userRepository) {
         this.messageRepository = messageRepository;
+        this.userRepository = userRepository;
     }
 
     public void sendMessage(Message message) {
         setTimeOnMessage(message);
+        assignUserToMessage(message);
         messageRepository.save(message);
+    }
+
+    private void assignUserToMessage(Message message) {
+        User userToAssign = userRepository.getOne(message.getUser().getId());
+        message.setUser(userToAssign);
     }
 
     private void setTimeOnMessage(Message message) {

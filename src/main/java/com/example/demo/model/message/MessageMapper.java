@@ -8,10 +8,13 @@ public class MessageMapper {
         messageDto.setLikes(message.getLikes());
         messageDto.setLocalDate(message.getLocalDate());
         messageDto.setLocalTime(message.getLocalTime());
-//        messageDto.setFirstName(message.getUser().getFirstName());
-//        messageDto.setFirstName(message.getUser().getLastName());
-
+        messageDto.setFirstName(message.getUser().getFirstName());
+        messageDto.setLastName(message.getUser().getLastName());
+        messageDto.setUserId(message.getUser().getId());
         return messageDto;
     }
+
+
+
 
 }

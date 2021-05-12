@@ -17,6 +17,8 @@ public class MessageDto {
 
     private String lastName;
 
+    private long userId;
+
     public LocalDate getLocalDate() {
         return localDate;
     }
@@ -63,5 +65,13 @@ public class MessageDto {
 
     public void setLocalTime(LocalTime localTime) {
         this.localTime = localTime;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 }
