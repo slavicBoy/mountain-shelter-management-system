@@ -1,6 +1,6 @@
 package com.example.demo;
 
-import com.example.demo.model.unavailableTerm.UnavailableTerm;
+import com.example.demo.unavailableTerm.UnavailableTerm;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
