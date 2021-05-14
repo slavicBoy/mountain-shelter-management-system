@@ -1,6 +1,8 @@
 package com.example.demo.reservation;
 
+import com.example.demo.exception.DateUnavailableException;
 import com.example.demo.exception.RoomNotFoundException;
+import com.example.demo.exception.ReservationNotFoundException;
 import com.example.demo.room.Room;
 import com.example.demo.unavailableTerm.UnavailableTerm;
 import com.example.demo.user.User;
@@ -36,24 +38,35 @@ public class ReservationService {
         this.unavailableTermRepository = unavailableTermRepository;
     }
 
-    public Optional<Reservation> create(Reservation reservation, Long id) {
-        Room room = roomRepository
-                .findById(id)
-                .orElseThrow(() -> new RoomNotFoundException("Room does not exist with this id"));
-
-        Optional<UnavailableTerm> unavailableTermOptional = checkAndSetDate.isRoomAvailable(room, roomRepository, reservation);
-        if (unavailableTermOptional.isEmpty()) {
-            throw new RoomNotFoundException("Date is unavailable");
-        } else {
-            UnavailableTerm unavailableTerm = unavailableTermOptional.get();
-            reservation.getDetails().setDateOfAddingReservation(LocalDate.now());
-            reservation.setUnavailableTerm(unavailableTerm);
-            reservation.setRoom(room);
-            reservationRepository.save(reservation);
-            addNewNotification();
+    public Optional<ReservationDto> create(Reservation reservation, Long id) {
+        Room room;
+        try {
+            room = roomRepository
+                    .findById(id)
+                    .orElseThrow(() -> new RoomNotFoundException("Room does not exist with this id"));
+        } catch (RoomNotFoundException e) {
+            System.err.println("Room does not exist with this id");
+            return Optional.empty();
         }
-        return Optional.of(reservation);
+
+        try {
+            Optional<UnavailableTerm> unavailableTermOptional = checkAndSetDate.isRoomAvailable(room, roomRepository, reservation);
+            if (unavailableTermOptional.isPresent()) {
+                UnavailableTerm unavailableTerm = unavailableTermOptional.get();
+                reservation.getDetails().setDateOfAddingReservation(LocalDate.now());
+                reservation.setUnavailableTerm(unavailableTerm);
+                reservation.setRoom(room);
+                addNewNotification();
+                reservationRepository.save(reservation);
+                ReservationDto reservationDto = ReservationMapper.toDto(reservation);
+                return Optional.of(reservationDto);
+            }
+            return Optional.empty();
+        } catch (DateUnavailableException e) {
+            return Optional.empty();
+        }
     }
+
 
     private void addNewNotification() {
         for (User user : userRepository.findAll()) {
@@ -73,18 +86,37 @@ public class ReservationService {
         return ReservationMapper.toDto(reservationRepository.getOne(id));
     }
 
-    public ReservationDto updateReservation(Long id, Reservation updatedReservation) {
-        Reservation reservation = reservationRepository.getOne(id);
-        reservation.setFirstName(updatedReservation.getFirstName());
-        reservation.setLastName(updatedReservation.getLastName());
-        reservation.getDetails().setExtraInformation(updatedReservation.getDetails().getExtraInformation());
-        reservation.getDetails().setEmail(updatedReservation.getDetails().getEmail());
-        reservation.setPhoneNumber(updatedReservation.getPhoneNumber());
-        reservationRepository.save(reservation);
-        return ReservationMapper.toDto(reservation);
+    public Optional<ReservationDto> updateReservation(Long id, Reservation updatedReservation) {
+        try {
+            Reservation reservation = reservationRepository
+                    .findById(id)
+                    .orElseThrow(() -> new ReservationNotFoundException("Reservation does not exist with this id"));
+
+            reservation.setFirstName(updatedReservation.getFirstName());
+            reservation.setLastName(updatedReservation.getLastName());
+            reservation.getDetails().setExtraInformation(updatedReservation.getDetails().getExtraInformation());
+            reservation.getDetails().setEmail(updatedReservation.getDetails().getEmail());
+            reservation.setPhoneNumber(updatedReservation.getPhoneNumber());
+            reservationRepository.save(reservation);
+
+            return Optional.of(ReservationMapper.toDto(reservation));
+        } catch (RoomNotFoundException e){
+            System.err.println("Reservation does not exist with this id");
+            return Optional.empty();
+        }
+
     }
 
-    public void deleteReservation(Long id) {
-        reservationRepository.deleteById(id);
+    public Optional<ReservationDto> deleteReservation(Long id) {
+        try{
+            Reservation reservation = reservationRepository
+                    .findById(id)
+                    .orElseThrow(() -> new ReservationNotFoundException("Reservation does not exist with this id"));
+            reservationRepository.delete(reservation);
+            return Optional.of(ReservationMapper.toDto(reservation));
+        } catch (ReservationNotFoundException e) {
+            System.err.println("Reservation does not exist with this id");
+            return Optional.empty();
+        }
     }
 }

@@ -23,10 +23,11 @@ public class MessageService {
         this.userRepository = userRepository;
     }
 
-    public void sendMessage(Message message) {
+    public Message sendMessage(Message message) {
         setTimeOnMessage(message);
         assignUserToMessage(message);
         messageRepository.save(message);
+        return message;
     }
 
     private void assignUserToMessage(Message message) {

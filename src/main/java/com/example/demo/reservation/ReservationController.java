@@ -1,14 +1,15 @@
 package com.example.demo.reservation;
 
-import com.example.demo.exception.DateUnavailableException;
-import com.example.demo.exception.RoomNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*")
@@ -31,6 +32,7 @@ public class ReservationController {
 
     }
 
+
     @GetMapping("/reservations/{id}")
     @PreAuthorize("hasRole('OWNER')")
     public ReservationDto getReservationById(@PathVariable Long id) {
@@ -39,24 +41,35 @@ public class ReservationController {
 
     @PostMapping("/rooms/{id}/reservation")
     public ResponseEntity<?> createReservation(@PathVariable Long id, @RequestBody Reservation reservation) {
-        try {
-            Optional<Reservation> reservationOptional = reservationService.create(reservation, id);
-            return ResponseEntity.ok(reservationOptional);
-        } catch (DateUnavailableException | RoomNotFoundException exception) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        Optional<ReservationDto> reservationOptional = reservationService.create(reservation, id);
+        if (reservationOptional.isPresent()) {
+            return ResponseEntity.ok(reservationOptional.get());
         }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+
 
     @PutMapping("/reservations/{id}")
     @PreAuthorize("hasRole('OWNER')")
-    public ReservationDto updateReservation(@PathVariable Long id, @RequestBody Reservation reservation) {
-        return reservationService.updateReservation(id, reservation);
+    public ResponseEntity<?> updateReservation(@PathVariable Long id, @RequestBody Reservation reservation) {
+
+        Optional<ReservationDto> reservationDtoOptional = reservationService.updateReservation(id, reservation);
+        if (reservationDtoOptional.isPresent()) {
+            return ResponseEntity.ok(reservationDtoOptional.get());
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping("/reservations/{id}")
     @PreAuthorize("hasRole('OWNER')")
-    public void deleteReservation(@PathVariable Long id) {
-        reservationService.deleteReservation(id);
+    public ResponseEntity<Map<String, Boolean>> deleteReservation(@PathVariable Long id) {
+        Optional<ReservationDto> reservationDtoOptional = reservationService.deleteReservation(id);
+        if (reservationDtoOptional.isPresent()) {
+            Map<String, Boolean> response = new HashMap<>();
+            response.put("deleted", Boolean.TRUE);
+            return ResponseEntity.ok(response);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 

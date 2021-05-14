@@ -21,8 +21,9 @@ public class MessageController {
 
     @PostMapping("/chat/message")
     @PreAuthorize("hasRole('OWNER') or hasRole('WORKER')")
-    public void addMessage(@RequestBody Message message) {
-        messageService.sendMessage(message);
+    public ResponseEntity<?> addMessage(@RequestBody Message messageToSend) {
+        Message message = messageService.sendMessage(messageToSend);
+        return ResponseEntity.ok(message);
     }
     @GetMapping("/chat/message")
     @PreAuthorize("hasRole('OWNER') or hasRole('WORKER')")

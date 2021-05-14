@@ -3,6 +3,7 @@ package com.example.demo.reservation;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.time.LocalDate;
 
 @Entity

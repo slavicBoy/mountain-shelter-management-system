@@ -1,6 +1,7 @@
 package com.example.demo.reservation;
 
 
+import com.example.demo.exception.DateUnavailableException;
 import com.example.demo.unavailableTerm.UnavailableTerm;
 import com.example.demo.room.Room;
 import com.example.demo.repositories.RoomRepository;
@@ -50,7 +51,7 @@ public class CheckAndSetDate {
             int dateWithTheLeastAmountOfPeople = compareDate(dateToCompare);
             boolean arePlacesAvailable = arePlacesAvailable(reservation, dateWithTheLeastAmountOfPeople);
             if (!arePlacesAvailable)
-                return Optional.empty();
+                throw new DateUnavailableException("Date is unavailable");
             else {
                 UnavailableTerm unavailableTerm = createUnavailableTerm(reservationDayStart, reservationDayEnd);
                 setDateOnRoomWhenAnotherReservation(dateWithTheLeastAmountOfPeople, unavailableTerm, room, reservation);
