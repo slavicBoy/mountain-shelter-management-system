@@ -1,4 +1,7 @@
-package com.example.demo.message;
+package com.example.demo.chat.message;
+
+import com.example.demo.chat.message.Message;
+import com.example.demo.chat.message.MessageDto;
 
 public class MessageMapper {
 

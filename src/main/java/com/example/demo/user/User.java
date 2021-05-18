@@ -1,6 +1,6 @@
 package com.example.demo.user;
 
-import com.example.demo.message.Message;
+import com.example.demo.chat.message.Message;
 import com.example.demo.role.Role;
 
 import javax.persistence.*;

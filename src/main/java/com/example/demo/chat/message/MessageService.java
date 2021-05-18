@@ -1,5 +1,8 @@
-package com.example.demo.message;
+package com.example.demo.chat.message;
 
+import com.example.demo.chat.message.Message;
+import com.example.demo.chat.message.MessageDto;
+import com.example.demo.chat.message.MessageMapper;
 import com.example.demo.user.User;
 import com.example.demo.repositories.MessageRepository;
 import com.example.demo.repositories.UserRepository;
@@ -23,11 +26,11 @@ public class MessageService {
         this.userRepository = userRepository;
     }
 
-    public Message sendMessage(Message message) {
+    public MessageDto sendMessage(Message message) {
         setTimeOnMessage(message);
         assignUserToMessage(message);
         messageRepository.save(message);
-        return message;
+        return MessageMapper.toDto(message);
     }
 
     private void assignUserToMessage(Message message) {

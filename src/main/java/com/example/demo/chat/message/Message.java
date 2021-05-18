@@ -1,4 +1,4 @@
-package com.example.demo.message;
+package com.example.demo.chat.message;
 
 import com.example.demo.user.User;
 
