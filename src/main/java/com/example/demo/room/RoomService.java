@@ -1,12 +1,9 @@
 package com.example.demo.room;
 
-import com.example.demo.exception.RoomNotFoundException;
-import com.example.demo.repositories.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,7 +23,15 @@ public class RoomService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<RoomDto> findById(Long id) {
+    public RoomDto findById(Long id) {
+        return roomRepository
+                .findById(id)
+                .map(RoomMapper::toDto)
+                .orElseThrow(() -> new RoomNotFoundException("Room does not exist with this id"));
+    }
+
+
+/*    public Optional<RoomDto> findById(Long id) {
         try {
             Room room = roomRepository
                     .findById(id)
@@ -36,7 +41,5 @@ public class RoomService {
             System.err.println("Room does not exist with this id");
             return Optional.empty();
         }
-
-
-    }
+    }*/
 }

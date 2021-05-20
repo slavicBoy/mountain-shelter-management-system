@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.parameters.P;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +20,6 @@ import java.util.Optional;
 public class ReservationController {
 
     private ReservationService reservationService;
-
 
     @Autowired
     public ReservationController(ReservationService reservationService) {
@@ -39,8 +40,8 @@ public class ReservationController {
         return reservationService.findById(id);
     }
 
-    @PostMapping("/rooms/{id}/reservation")
-    public ResponseEntity<?> createReservation(@PathVariable Long id, @RequestBody Reservation reservation) {
+    @PostMapping("/rooms/{id}/reservation") // s
+    public ResponseEntity<?> createReservation(@PathVariable Long id, @Valid @RequestBody Reservation reservation) { //ReservationDTO
         Optional<ReservationDto> reservationOptional = reservationService.create(reservation, id);
         if (reservationOptional.isPresent()) {
             return ResponseEntity.ok(reservationOptional.get());

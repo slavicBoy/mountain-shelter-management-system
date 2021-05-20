@@ -1,11 +1,11 @@
 package com.example.demo.reservation;
 
 import com.example.demo.room.Room;
-import com.example.demo.unavailableTerm.UnavailableTerm;
+import com.example.demo.reservation.unavailableTerm.UnavailableTerm;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 @Entity
@@ -15,27 +15,45 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Size(max = 20)
+
+    @Size(min = 2, max = 20)
+    @NotBlank(message = "first name is required")
     @Column(name = "first_name")
     private String firstName;
-    @Column(name = "last_name", length = 30)
+
+    @Size(min = 2, max = 40)
+    @NotBlank(message = "first name is required")
+    @Column(name = "last_name")
     private String lastName;
+
     @Column(name = "how_many_people")
     private int howManyPeople;
-    @Column(name = "phone_number", length = 12)
+
+    @NotBlank
+    @Size(min = 9, max = 9)
+    @Column(name = "phone_number")
     private String phoneNumber;
+
     @Column(name = "reservation_start")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "day of start reservation is required")
+    @FutureOrPresent(message = "date must be at least current-day")
     private LocalDate reservationDayStart;
+
     @Column(name = "reservation_end")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "day of end reservation is required")
+    @FutureOrPresent(message = "date must be at least current-day")
     private LocalDate reservationDayEnd;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_details")
     private ReservationDetails details;
     @ManyToOne
+
     @JoinColumn(name = "room_id")
     private Room room;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "unavailable_term_id")
     private UnavailableTerm unavailableTerm;

@@ -1,4 +1,4 @@
-package com.example.demo.unavailableTerm;
+package com.example.demo.reservation.unavailableTerm;
 
 import com.example.demo.reservation.Reservation;
 import com.example.demo.room.Room;

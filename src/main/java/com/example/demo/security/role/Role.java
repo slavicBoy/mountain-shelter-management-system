@@ -1,4 +1,4 @@
-package com.example.demo.role;
+package com.example.demo.security.role;
 
 import javax.persistence.*;
 

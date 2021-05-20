@@ -1,9 +1,8 @@
 package com.example.demo.user;
 
-import com.example.demo.role.ERole;
-import com.example.demo.role.Role;
-import com.example.demo.repositories.RoleRepository;
-import com.example.demo.repositories.UserRepository;
+import com.example.demo.security.role.ERole;
+import com.example.demo.security.role.Role;
+import com.example.demo.security.role.RoleRepository;
 import com.example.demo.security.payload.request.SignupRequest;
 import com.example.demo.security.payload.response.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ import java.util.Set;
 @RequestMapping("/api/panel")
 public class UserController {
 
-    UserRepository userRepository;
+    private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder encoder;
     private UserService userService;

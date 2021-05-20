@@ -1,4 +1,4 @@
-package com.example.demo.repositories;
+package com.example.demo.reservation.repository;
 
 import com.example.demo.reservation.ReservationDetails;
 import org.springframework.data.jpa.repository.JpaRepository;

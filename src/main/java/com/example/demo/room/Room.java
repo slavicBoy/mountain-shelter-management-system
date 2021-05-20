@@ -1,7 +1,7 @@
 package com.example.demo.room;
 
 import com.example.demo.reservation.Reservation;
-import com.example.demo.unavailableTerm.UnavailableTerm;
+import com.example.demo.reservation.unavailableTerm.UnavailableTerm;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -29,6 +29,13 @@ public class Room {
     private List<Reservation> reservations;
     @OneToMany(mappedBy = "room")
     private List<UnavailableTerm> unavailableTerms;
+
+    // OBIEKT STRATEGIA WYLICZANIA WOLNYCH MIEJSC
+
+    {
+        reservations = new ArrayList<>();
+        unavailableTerms = new ArrayList<>();
+    }
 
 
     public Room() {

@@ -1,10 +1,10 @@
 package com.example.demo.reservation;
 
 
-import com.example.demo.exception.DateUnavailableException;
-import com.example.demo.unavailableTerm.UnavailableTerm;
+import com.example.demo.reservation.unavailableTerm.DateUnavailableException;
+import com.example.demo.reservation.unavailableTerm.UnavailableTerm;
 import com.example.demo.room.Room;
-import com.example.demo.repositories.RoomRepository;
+import com.example.demo.room.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -1,8 +1,8 @@
-package com.example.demo.repositories;
+package com.example.demo.security.role;
 
 
-import com.example.demo.role.ERole;
-import com.example.demo.role.Role;
+import com.example.demo.security.role.ERole;
+import com.example.demo.security.role.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

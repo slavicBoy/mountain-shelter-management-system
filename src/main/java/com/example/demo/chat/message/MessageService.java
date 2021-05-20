@@ -1,11 +1,7 @@
 package com.example.demo.chat.message;
 
-import com.example.demo.chat.message.Message;
-import com.example.demo.chat.message.MessageDto;
-import com.example.demo.chat.message.MessageMapper;
 import com.example.demo.user.User;
-import com.example.demo.repositories.MessageRepository;
-import com.example.demo.repositories.UserRepository;
+import com.example.demo.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

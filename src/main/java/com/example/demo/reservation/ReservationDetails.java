@@ -4,6 +4,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
@@ -17,10 +20,16 @@ public class ReservationDetails {
     @Column(name = "date_of_adding_reservation")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfAddingReservation;
-    @Column(name = "extra_information", nullable = true)
+
+    @Column(name = "extra_information")
     private String extraInformation;
+
     @Column(name = "email")
+    @Email(message = "Email must follow the formatter: ****@***.**")
+    @NotBlank(message = "Email must have a value")
+    @Size(max = 50)
     private String email;
+
     @OneToOne(mappedBy = "details")
     private Reservation reservation;
 

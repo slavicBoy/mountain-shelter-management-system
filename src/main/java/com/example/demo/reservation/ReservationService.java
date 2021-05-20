@@ -1,15 +1,14 @@
 package com.example.demo.reservation;
 
-import com.example.demo.exception.DateUnavailableException;
-import com.example.demo.exception.RoomNotFoundException;
-import com.example.demo.exception.ReservationNotFoundException;
+import com.example.demo.reservation.repository.ReservationRepository;
+import com.example.demo.reservation.unavailableTerm.DateUnavailableException;
+import com.example.demo.room.RoomNotFoundException;
 import com.example.demo.room.Room;
-import com.example.demo.unavailableTerm.UnavailableTerm;
+import com.example.demo.reservation.unavailableTerm.UnavailableTerm;
 import com.example.demo.user.User;
-import com.example.demo.repositories.ReservationRepository;
-import com.example.demo.repositories.RoomRepository;
-import com.example.demo.repositories.UnavailableTermRepository;
-import com.example.demo.repositories.UserRepository;
+import com.example.demo.room.RoomRepository;
+import com.example.demo.reservation.unavailableTerm.UnavailableTermRepository;
+import com.example.demo.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,17 +50,19 @@ public class ReservationService {
 
         try {
             Optional<UnavailableTerm> unavailableTermOptional = checkAndSetDate.isRoomAvailable(room, roomRepository, reservation);
-            if (unavailableTermOptional.isPresent()) {
-                UnavailableTerm unavailableTerm = unavailableTermOptional.get();
-                reservation.getDetails().setDateOfAddingReservation(LocalDate.now());
-                reservation.setUnavailableTerm(unavailableTerm);
-                reservation.setRoom(room);
-                addNewNotification();
-                reservationRepository.save(reservation);
-                ReservationDto reservationDto = ReservationMapper.toDto(reservation);
-                return Optional.of(reservationDto);
+            if (!unavailableTermOptional.isPresent()) {
+                return Optional.empty();
             }
-            return Optional.empty();
+
+            UnavailableTerm unavailableTerm = unavailableTermOptional.get();
+            reservation.getDetails().setDateOfAddingReservation(LocalDate.now());
+            reservation.setUnavailableTerm(unavailableTerm); ////// W ENCJI REZERWACJA
+            reservation.setRoom(room);
+            addNewNotification();
+            reservationRepository.save(reservation);
+            ReservationDto reservationDto = ReservationMapper.toDto(reservation);
+            return Optional.of(reservationDto);
+
         } catch (DateUnavailableException e) {
             return Optional.empty();
         }
@@ -100,7 +101,7 @@ public class ReservationService {
             reservationRepository.save(reservation);
 
             return Optional.of(ReservationMapper.toDto(reservation));
-        } catch (RoomNotFoundException e){
+        } catch (RoomNotFoundException e) {
             System.err.println("Reservation does not exist with this id");
             return Optional.empty();
         }
@@ -108,7 +109,7 @@ public class ReservationService {
     }
 
     public Optional<ReservationDto> deleteReservation(Long id) {
-        try{
+        try {
             Reservation reservation = reservationRepository
                     .findById(id)
                     .orElseThrow(() -> new ReservationNotFoundException("Reservation does not exist with this id"));
