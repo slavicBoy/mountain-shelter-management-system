@@ -48,7 +48,7 @@ public class Reservation {
     private LocalDate reservationDayEnd;
 
     @Column(name = "amount_to_pay")
-//    @NotNull(message = "amount can't be null")
+    @NotNull(message = "amount can't be null")
     private BigDecimal amountToPay;
 
 
