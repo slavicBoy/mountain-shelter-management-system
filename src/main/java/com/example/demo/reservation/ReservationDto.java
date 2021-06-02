@@ -1,5 +1,6 @@
 package com.example.demo.reservation;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class ReservationDto {
@@ -14,6 +15,8 @@ public class ReservationDto {
     private String email;
     private String extraInformation;
     private LocalDate reservationTime;
+    private BigDecimal amountToPay;
+    private boolean wasDiscountShowed;
 
     public Long getId() {
         return id;
@@ -93,5 +96,22 @@ public class ReservationDto {
 
     public void setReservationTime(LocalDate reservationTime) {
         this.reservationTime = reservationTime;
+    }
+
+
+    public BigDecimal getAmountToPay() {
+        return amountToPay;
+    }
+
+    public void setAmountToPay(BigDecimal amountToPay) {
+        this.amountToPay = amountToPay;
+    }
+
+    public boolean isWasDiscountShowed() {
+        return wasDiscountShowed;
+    }
+
+    public void setWasDiscountShowed(boolean wasDiscountShowed) {
+        this.wasDiscountShowed = wasDiscountShowed;
     }
 }

@@ -15,6 +15,8 @@ public class ReservationMapper {
         dto.setEmail(reservation.getDetails().getEmail());
         dto.setExtraInformation(reservation.getDetails().getExtraInformation());
         dto.setReservationTime(reservation.getDetails().getDateOfAddingReservation());
+        dto.setAmountToPay(reservation.getAmountToPay());
+        dto.setWasDiscountShowed(reservation.getDetails().getWasDiscountShowed());
         return dto;
     }
 

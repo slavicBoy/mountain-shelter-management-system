@@ -30,6 +30,9 @@ public class ReservationDetails {
     @Size(max = 50)
     private String email;
 
+    @Column(name = "was_discount_showed")
+    private Boolean wasDiscountShowed;
+
     @OneToOne(mappedBy = "details")
     private Reservation reservation;
 
@@ -38,10 +41,11 @@ public class ReservationDetails {
     public ReservationDetails() {
     }
 
-    public ReservationDetails(Integer howManyPeople, LocalDate dateOfAddingReservation, String extraInformation, Reservation reservation) {
+    public ReservationDetails(LocalDate dateOfAddingReservation, String extraInformation, Reservation reservation) {
         this.dateOfAddingReservation = dateOfAddingReservation;
         this.extraInformation = extraInformation;
         this.reservation = reservation;
+        this.wasDiscountShowed = false;
     }
 
     public Long getId() {
@@ -84,6 +88,13 @@ public class ReservationDetails {
         this.email = email;
     }
 
+    public Boolean getWasDiscountShowed() {
+        return wasDiscountShowed;
+    }
+
+    public void setWasDiscountShowed(boolean wasDiscountShowed) {
+        this.wasDiscountShowed = wasDiscountShowed;
+    }
 
     @Override
     public String toString() {

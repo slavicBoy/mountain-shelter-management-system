@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -45,6 +46,12 @@ public class Reservation {
     @NotNull(message = "day of end reservation is required")
     @FutureOrPresent(message = "date must be at least current-day")
     private LocalDate reservationDayEnd;
+
+    @Column(name = "amount_to_pay")
+//    @NotNull(message = "amount can't be null")
+    private BigDecimal amountToPay;
+
+
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_details")
@@ -149,6 +156,14 @@ public class Reservation {
 
     public void setUnavailableTerm(UnavailableTerm unavailableTerm) {
         this.unavailableTerm = unavailableTerm;
+    }
+
+    public BigDecimal getAmountToPay() {
+        return amountToPay;
+    }
+
+    public void setAmountToPay(BigDecimal amountToPay) {
+        this.amountToPay = amountToPay;
     }
 
     @Override

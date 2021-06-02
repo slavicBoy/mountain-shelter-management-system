@@ -56,6 +56,7 @@ public class ReservationService {
 
             UnavailableTerm unavailableTerm = unavailableTermOptional.get();
             reservation.getDetails().setDateOfAddingReservation(LocalDate.now());
+            reservation.getDetails().setWasDiscountShowed(false);
             reservation.setUnavailableTerm(unavailableTerm); ////// W ENCJI REZERWACJA
             reservation.setRoom(room);
             addNewNotification();
