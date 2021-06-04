@@ -50,9 +50,10 @@ public class CheckAndSetDate {
         if (dateToCompare.size() > 0) {
             int dateWithTheLeastAmountOfPeople = compareDate(dateToCompare);
             boolean arePlacesAvailable = arePlacesAvailable(reservation, dateWithTheLeastAmountOfPeople);
-            if (!arePlacesAvailable)
+            if (!arePlacesAvailable) {
+                System.out.println("lalala");
                 throw new DateUnavailableException("Date is unavailable");
-            else {
+            } else {
                 UnavailableTerm unavailableTerm = createUnavailableTerm(reservationDayStart, reservationDayEnd);
                 setDateOnRoomWhenAnotherReservation(dateWithTheLeastAmountOfPeople, unavailableTerm, room, reservation);
                 System.out.println("Places left: " + dateWithTheLeastAmountOfPeople);
@@ -73,7 +74,7 @@ public class CheckAndSetDate {
     }
 
     private boolean arePlacesAvailable(Reservation reservation, int dateWithTheLeastAmountOfPeople) {
-        return dateWithTheLeastAmountOfPeople - reservation.getHowManyPeople() > 0;
+        return dateWithTheLeastAmountOfPeople - reservation.getHowManyPeople() >= 0;
     }
 
     private UnavailableTerm createUnavailableTerm(LocalDate reservationDayStart, LocalDate reservationDayEnd) {
