@@ -42,6 +42,7 @@ public class ReservationController {
 
     @PostMapping("/rooms/{id}/reservation") // s
     public ResponseEntity<?> createReservation(@PathVariable Long id, @Valid @RequestBody Reservation reservation) { //ReservationDTO
+        System.out.println(reservation.getDetails().toString());
         Optional<ReservationDto> reservationOptional = reservationService.create(reservation, id);
         if (reservationOptional.isPresent()) {
             return ResponseEntity.ok(reservationOptional.get());

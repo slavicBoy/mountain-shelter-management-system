@@ -169,17 +169,18 @@ public class Reservation {
     @Override
     public String toString() {
         return "Reservation{" +
+                "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", howManyPeople=" + howManyPeople +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", reservationDayStart=" + reservationDayStart +
                 ", reservationDayEnd=" + reservationDayEnd +
+                ", amountToPay=" + amountToPay +
                 ", details=" + details +
                 ", room=" + room +
+                ", unavailableTerm=" + unavailableTerm +
                 '}';
     }
-
-
 }
 

@@ -24,6 +24,9 @@ public class ReservationDetails {
     @Column(name = "extra_information")
     private String extraInformation;
 
+    @Column(name = "nights")
+    private Integer nights;
+
     @Column(name = "email")
     @Email(message = "Email must follow the formatter: ****@***.**")
     @NotBlank(message = "Email must have a value")
@@ -41,11 +44,12 @@ public class ReservationDetails {
     public ReservationDetails() {
     }
 
-    public ReservationDetails(LocalDate dateOfAddingReservation, String extraInformation, Reservation reservation) {
+    public ReservationDetails(LocalDate dateOfAddingReservation, String extraInformation, Reservation reservation, Boolean wasDiscountShowed, Integer nights) {
         this.dateOfAddingReservation = dateOfAddingReservation;
         this.extraInformation = extraInformation;
         this.reservation = reservation;
-        this.wasDiscountShowed = false;
+        this.wasDiscountShowed = wasDiscountShowed;
+        this.nights = nights;
     }
 
     public Long getId() {
@@ -92,17 +96,29 @@ public class ReservationDetails {
         return wasDiscountShowed;
     }
 
-    public void setWasDiscountShowed(boolean wasDiscountShowed) {
+    public void setWasDiscountShowed(Boolean wasDiscountShowed) {
         this.wasDiscountShowed = wasDiscountShowed;
     }
+
+    public Integer getNights() {
+        return nights;
+    }
+
+    public void setNights(Integer nights) {
+        this.nights = nights;
+    }
+
 
     @Override
     public String toString() {
         return "ReservationDetails{" +
+                "id=" + id +
                 ", dateOfAddingReservation=" + dateOfAddingReservation +
                 ", extraInformation='" + extraInformation + '\'' +
+                ", nights=" + nights +
                 ", email='" + email + '\'' +
-
+                ", wasDiscountShowed=" + wasDiscountShowed +
+                ", reservation=" + reservation +
                 '}';
     }
 }

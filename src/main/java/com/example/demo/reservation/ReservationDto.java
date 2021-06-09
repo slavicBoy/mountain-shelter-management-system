@@ -17,6 +17,8 @@ public class ReservationDto {
     private LocalDate reservationTime;
     private BigDecimal amountToPay;
     private boolean wasDiscountShowed;
+    private Integer nights;
+
 
     public Long getId() {
         return id;
@@ -113,5 +115,13 @@ public class ReservationDto {
 
     public void setWasDiscountShowed(boolean wasDiscountShowed) {
         this.wasDiscountShowed = wasDiscountShowed;
+    }
+
+    public Integer getNights() {
+        return nights;
+    }
+
+    public void setNights(Integer nights) {
+        this.nights = nights;
     }
 }
