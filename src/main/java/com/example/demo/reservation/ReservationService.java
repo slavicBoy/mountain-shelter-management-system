@@ -108,6 +108,24 @@ public class ReservationService {
 
     }
 
+
+    public Optional<ReservationDto> confirmReservationDiscount(Long id) {
+        try {
+            Reservation reservation = reservationRepository
+                    .findById(id)
+                    .orElseThrow(() -> new ReservationNotFoundException("Reservation does not exist with this id"));
+
+            reservation.getDetails().setWasDiscountShowed(true);
+            reservationRepository.save(reservation);
+
+            return Optional.of(ReservationMapper.toDto(reservation));
+        } catch (RoomNotFoundException e) {
+            System.err.println("Reservation does not exist with this id");
+            return Optional.empty();
+        }
+
+    }
+
     public Optional<ReservationDto> deleteReservation(Long id) {
         try {
             Reservation reservation = reservationRepository

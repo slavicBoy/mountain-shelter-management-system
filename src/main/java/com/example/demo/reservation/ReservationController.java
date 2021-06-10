@@ -62,6 +62,16 @@ public class ReservationController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    @PatchMapping("/reservations/{id}")
+    @PreAuthorize("hasRole('OWNER')")
+    public ResponseEntity<?> confirmReservationDiscount(@PathVariable Long id) {
+        Optional<ReservationDto> reservationDtoOptional = reservationService.confirmReservationDiscount(id);
+        if (reservationDtoOptional.isPresent()) {
+            return ResponseEntity.ok(reservationDtoOptional.get());
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
     @DeleteMapping("/reservations/{id}")
     @PreAuthorize("hasRole('OWNER')")
     public ResponseEntity<Map<String, Boolean>> deleteReservation(@PathVariable Long id) {
