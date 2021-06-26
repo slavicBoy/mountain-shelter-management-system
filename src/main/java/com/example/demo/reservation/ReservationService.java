@@ -5,6 +5,7 @@ import com.example.demo.reservation.unavailableTerm.DateUnavailableException;
 import com.example.demo.room.RoomNotFoundException;
 import com.example.demo.room.Room;
 import com.example.demo.reservation.unavailableTerm.UnavailableTerm;
+import com.example.demo.room.RoomTooSmallException;
 import com.example.demo.user.User;
 import com.example.demo.room.RoomRepository;
 import com.example.demo.reservation.unavailableTerm.UnavailableTermRepository;
@@ -63,7 +64,7 @@ public class ReservationService {
             ReservationDto reservationDto = ReservationMapper.toDto(reservation);
             return Optional.of(reservationDto);
 
-        } catch (DateUnavailableException e) {
+        } catch (DateUnavailableException | RoomTooSmallException e) {
             return Optional.empty();
         }
     }

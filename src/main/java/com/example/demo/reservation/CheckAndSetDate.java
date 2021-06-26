@@ -5,6 +5,7 @@ import com.example.demo.reservation.unavailableTerm.DateUnavailableException;
 import com.example.demo.reservation.unavailableTerm.UnavailableTerm;
 import com.example.demo.room.Room;
 import com.example.demo.room.RoomRepository;
+import com.example.demo.room.RoomTooSmallException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,13 +31,29 @@ public class CheckAndSetDate {
         LocalDate reservationDayEnd = reservation.getReservationDayEnd();
         List<UnavailableTerm> unavailableTerms = roomRepository.getOne(room.getId()).getUnavailableTerms();
         List<UnavailableTerm> dateToCompare = new ArrayList<>();
+
+        if (reservation.getHowManyPeople() - room.getForHowManyPeople() > 0) {
+            throw new RoomTooSmallException("Picked room is too small");
+        }
+
         for (UnavailableTerm unavailableTerm : unavailableTerms) {
+            System.out.println(reservationDayEnd + "  " + unavailableTerm.getStartOfUnavailableTerm());
+            System.out.println(reservationDayEnd.isAfter(unavailableTerm.getStartOfUnavailableTerm()));
             if (unavailableTerm.getStartOfUnavailableTerm().isAfter(reservationDayStart)) {
+
+                if (reservationDayEnd.isEqual(unavailableTerm.getStartOfUnavailableTerm())) {
+                    continue;
+                }
+
                 if (!reservationDayEnd.isBefore(unavailableTerm.getStartOfUnavailableTerm())) {
                     dateToCompare.add(unavailableTerm);
                 }
             }
             if (unavailableTerm.getStartOfUnavailableTerm().isBefore(reservationDayStart)) {
+                if (reservationDayStart.isEqual(unavailableTerm.getEndOfUnavailableTerm())) {
+                    continue;
+                }
+
                 if (!reservationDayStart.isAfter(unavailableTerm.getEndOfUnavailableTerm())) {
                     dateToCompare.add(unavailableTerm);
                 }
@@ -89,6 +106,7 @@ public class CheckAndSetDate {
     }
 
     private void setDateOnRoomWhenAnotherReservation(int dateWithTheLastAmountOfPeople, UnavailableTerm unavailableTerm, Room room, Reservation reservation) {
+
         Room roomFromDataBase = roomRepository.getOne(room.getId());
         roomFromDataBase.addUnavailableTerm(unavailableTerm);
         unavailableTerm.setRoom(roomFromDataBase);
