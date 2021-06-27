@@ -36,6 +36,11 @@ public class ReservationDetails {
     @Column(name = "was_discount_showed")
     private Boolean wasDiscountShowed;
 
+    @Column(name = "is_advance_paid")
+    private Boolean isAdvancePaid;
+
+    @Column(name = "is_accommodation_paid")
+    private Boolean isAccommodationPaid;
     @OneToOne(mappedBy = "details")
     private Reservation reservation;
 
@@ -108,6 +113,21 @@ public class ReservationDetails {
         this.nights = nights;
     }
 
+    public Boolean getAdvancePaid() {
+        return isAdvancePaid;
+    }
+
+    public void setAdvancePaid(Boolean advancePaid) {
+        isAdvancePaid = advancePaid;
+    }
+
+    public Boolean getAccommodationPaid() {
+        return isAccommodationPaid;
+    }
+
+    public void setAccommodationPaid(Boolean accommodationPaid) {
+        isAccommodationPaid = accommodationPaid;
+    }
 
     @Override
     public String toString() {
@@ -118,6 +138,8 @@ public class ReservationDetails {
                 ", nights=" + nights +
                 ", email='" + email + '\'' +
                 ", wasDiscountShowed=" + wasDiscountShowed +
+                ", isAdvancePaid=" + isAdvancePaid +
+                ", isAccommodationPaid=" + isAccommodationPaid +
                 ", reservation=" + reservation +
                 '}';
     }

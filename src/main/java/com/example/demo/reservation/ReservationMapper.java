@@ -18,6 +18,9 @@ public class ReservationMapper {
         dto.setAmountToPay(reservation.getAmountToPay());
         dto.setWasDiscountShowed(reservation.getDetails().getWasDiscountShowed());
         dto.setNights(reservation.getDetails().getNights());
+        dto.setAmountToPay(reservation.getAmountToPay());
+        dto.setAmountWithDiscount(reservation.getAmountWithDiscount());
+
         return dto;
     }
 

@@ -3,6 +3,7 @@ package com.example.demo.reservation;
 import com.example.demo.room.Room;
 import com.example.demo.reservation.unavailableTerm.UnavailableTerm;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -51,6 +52,9 @@ public class Reservation {
     @NotNull(message = "amount can't be null")
     private BigDecimal amountToPay;
 
+    @Column(name = "amount_with_discount")
+    @Nullable
+    private BigDecimal amountWithDiscount;
 
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -69,13 +73,15 @@ public class Reservation {
 
     }
 
-    public Reservation(String firstName, String lastName, int howManyPeople, String phoneNumber, LocalDate reservationDayStart, LocalDate reservationDayEnd) {
+    public Reservation(String firstName, String lastName, int howManyPeople, String phoneNumber, LocalDate reservationDayStart, LocalDate reservationDayEnd, BigDecimal amountToPay, BigDecimal amountWithDiscount) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.howManyPeople = howManyPeople;
         this.phoneNumber = phoneNumber;
         this.reservationDayStart = reservationDayStart;
         this.reservationDayEnd = reservationDayEnd;
+        this.amountToPay = amountToPay;
+        this.amountWithDiscount = amountWithDiscount;
     }
 
     public Long getId() {
@@ -166,6 +172,15 @@ public class Reservation {
         this.amountToPay = amountToPay;
     }
 
+    @Nullable
+    public BigDecimal getAmountWithDiscount() {
+        return amountWithDiscount;
+    }
+
+    public void setAmountWithDiscount(@Nullable BigDecimal amountWithDiscount) {
+        this.amountWithDiscount = amountWithDiscount;
+    }
+
     @Override
     public String toString() {
         return "Reservation{" +
@@ -177,6 +192,7 @@ public class Reservation {
                 ", reservationDayStart=" + reservationDayStart +
                 ", reservationDayEnd=" + reservationDayEnd +
                 ", amountToPay=" + amountToPay +
+                ", amountWithDiscount=" + amountWithDiscount +
                 ", details=" + details +
                 ", room=" + room +
                 ", unavailableTerm=" + unavailableTerm +

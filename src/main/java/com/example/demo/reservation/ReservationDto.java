@@ -18,6 +18,10 @@ public class ReservationDto {
     private BigDecimal amountToPay;
     private boolean wasDiscountShowed;
     private Integer nights;
+    private boolean isAdvancePaid;
+    private boolean isAccommodationPaid;
+    private BigDecimal amountWithDiscount;
+
 
 
     public Long getId() {
@@ -123,5 +127,29 @@ public class ReservationDto {
 
     public void setNights(Integer nights) {
         this.nights = nights;
+    }
+
+    public boolean isAdvancePaid() {
+        return isAdvancePaid;
+    }
+
+    public void setAdvancePaid(boolean advancePaid) {
+        isAdvancePaid = advancePaid;
+    }
+
+    public boolean isAccommodationPaid() {
+        return isAccommodationPaid;
+    }
+
+    public void setAccommodationPaid(boolean accommodationPaid) {
+        isAccommodationPaid = accommodationPaid;
+    }
+
+    public BigDecimal getAmountWithDiscount() {
+        return amountWithDiscount;
+    }
+
+    public void setAmountWithDiscount(BigDecimal amountWithDiscount) {
+        this.amountWithDiscount = amountWithDiscount;
     }
 }

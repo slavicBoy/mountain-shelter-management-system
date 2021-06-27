@@ -59,6 +59,8 @@ public class ReservationService {
             reservation.getDetails().setDateOfAddingReservation(LocalDate.now());
             reservation.setUnavailableTerm(unavailableTerm); ////// W ENCJI REZERWACJA
             reservation.setRoom(room);
+            reservation.getDetails().setAccommodationPaid(false);
+            reservation.getDetails().setAdvancePaid(false);
             addNewNotification();
             reservationRepository.save(reservation);
             ReservationDto reservationDto = ReservationMapper.toDto(reservation);
