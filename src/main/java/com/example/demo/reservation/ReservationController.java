@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -64,14 +62,24 @@ public class ReservationController {
     }
 
     @PatchMapping("/reservations/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('OWNER')")
-    public ResponseEntity<?> confirmReservationDiscount(@PathVariable Long id) {
-        Optional<ReservationDto> reservationDtoOptional = reservationService.confirmReservationDiscount(id);
+    public ResponseEntity<?> confirmPaymentOrDiscount(@PathVariable Long id, @RequestBody Map<String, Boolean> updates) {
+        for (Map.Entry<String, Boolean> stringBooleanEntry : updates.entrySet()) {
+            System.out.println(stringBooleanEntry.toString());
+        }
+                Optional<ReservationDto> reservationDtoOptional = reservationService.confirmPaymentOrDiscount(id, updates);
         if (reservationDtoOptional.isPresent()) {
             return ResponseEntity.ok(reservationDtoOptional.get());
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        Optional<ReservationDto> reservationDtoOptional = reservationService.confirmPaymentOrDiscount(id);
+//        if (reservationDtoOptional.isPresent()) {
+//            return ResponseEntity.ok(reservationDtoOptional.get());
+//        }
+//        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+
 
     @DeleteMapping("/reservations/{id}")
     @PreAuthorize("hasRole('OWNER')")

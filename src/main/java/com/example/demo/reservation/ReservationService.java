@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -59,6 +60,7 @@ public class ReservationService {
             reservation.getDetails().setDateOfAddingReservation(LocalDate.now());
             reservation.setUnavailableTerm(unavailableTerm); ////// W ENCJI REZERWACJA
             reservation.setRoom(room);
+            reservation.getDetails().setWasDiscountShowed(false);
             reservation.getDetails().setAccommodationPaid(false);
             reservation.getDetails().setAdvancePaid(false);
             addNewNotification();
@@ -112,13 +114,15 @@ public class ReservationService {
     }
 
 
-    public Optional<ReservationDto> confirmReservationDiscount(Long id) {
+    public Optional<ReservationDto> confirmPaymentOrDiscount(Long id, Map<String, Boolean> updates) {
         try {
             Reservation reservation = reservationRepository
                     .findById(id)
                     .orElseThrow(() -> new ReservationNotFoundException("Reservation does not exist with this id"));
 
-            reservation.getDetails().setWasDiscountShowed(true);
+            reservation.getDetails().setWasDiscountShowed(updates.get("wasDiscountShowed"));
+            reservation.getDetails().setAdvancePaid(updates.get("advancePaid"));
+            reservation.getDetails().setAccommodationPaid(updates.get("accommodationPaid"));
             reservationRepository.save(reservation);
 
             return Optional.of(ReservationMapper.toDto(reservation));
