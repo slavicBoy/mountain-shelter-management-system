@@ -35,7 +35,7 @@ public class UserController {
     }
 
     @PostMapping("/workers")
-    @PreAuthorize("hasRole('OWNER')")
+//    @PreAuthorize("hasRole('OWNER')")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getEmail())) {
             return ResponseEntity

@@ -1,5 +1,7 @@
 package com.example.demo.reservation;
 
+import com.example.demo.room.Room;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -21,6 +23,7 @@ public class ReservationDto {
     private boolean isAdvancePaid;
     private boolean isAccommodationPaid;
     private BigDecimal amountWithDiscount;
+    private Long roomId;
 
 
 
@@ -151,5 +154,13 @@ public class ReservationDto {
 
     public void setAmountWithDiscount(BigDecimal amountWithDiscount) {
         this.amountWithDiscount = amountWithDiscount;
+    }
+
+    public Long getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
     }
 }
