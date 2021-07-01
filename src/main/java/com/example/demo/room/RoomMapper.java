@@ -10,6 +10,7 @@ public class RoomMapper {
         dto.setForHowManyPeople(room.getForHowManyPeople());
         dto.setPricePerPeron(room.getPricePerPeron());
         dto.setImgUrl(room.getImgUrl());
+        dto.setRoomNumber(room.getRoomNumber());
         return dto;
     }
 

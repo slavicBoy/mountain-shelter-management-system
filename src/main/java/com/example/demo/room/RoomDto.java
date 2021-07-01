@@ -10,6 +10,7 @@ public class RoomDto {
     private boolean isBathroom;
     private BigDecimal pricePerPeron;
     private String imgUrl;
+    private Integer roomNumber;
 
     public Long getId() {
         return id;
@@ -59,6 +60,13 @@ public class RoomDto {
         this.imgUrl = imgUrl;
     }
 
+    public Integer getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(Integer roomNumber) {
+        this.roomNumber = roomNumber;
+    }
 
     @Override
     public String toString() {
@@ -69,6 +77,7 @@ public class RoomDto {
                 ", isBathroom=" + isBathroom +
                 ", pricePerPeron=" + pricePerPeron +
                 ", imgUrl='" + imgUrl + '\'' +
+                ", roomNumber=" + roomNumber +
                 '}';
     }
 }

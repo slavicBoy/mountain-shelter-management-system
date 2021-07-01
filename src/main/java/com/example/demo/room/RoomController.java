@@ -19,9 +19,9 @@ public class RoomController {
         this.roomService = roomService;
     }
 
-    @GetMapping("/rooms")
-    public List<RoomDto> findAll() {
-        return roomService.findAll();
+    @PostMapping("/rooms")
+    public List<RoomDto> findAll(@RequestBody ArrivalDetailsDto arrivalDetails) {
+        return roomService.findAll(arrivalDetails);
     }
 
 /*    @GetMapping("/rooms/{id}")

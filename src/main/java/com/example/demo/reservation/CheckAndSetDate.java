@@ -37,8 +37,7 @@ public class CheckAndSetDate {
         }
 
         for (UnavailableTerm unavailableTerm : unavailableTerms) {
-            System.out.println(reservationDayEnd + "  " + unavailableTerm.getStartOfUnavailableTerm());
-            System.out.println(reservationDayEnd.isAfter(unavailableTerm.getStartOfUnavailableTerm()));
+
             if (unavailableTerm.getStartOfUnavailableTerm().isAfter(reservationDayStart)) {
 
                 if (reservationDayEnd.isEqual(unavailableTerm.getStartOfUnavailableTerm())) {
@@ -68,7 +67,6 @@ public class CheckAndSetDate {
             int dateWithTheLeastAmountOfPeople = compareDate(dateToCompare);
             boolean arePlacesAvailable = arePlacesAvailable(reservation, dateWithTheLeastAmountOfPeople);
             if (!arePlacesAvailable) {
-                System.out.println("lalala");
                 throw new DateUnavailableException("Date is unavailable");
             } else {
                 UnavailableTerm unavailableTerm = createUnavailableTerm(reservationDayStart, reservationDayEnd);

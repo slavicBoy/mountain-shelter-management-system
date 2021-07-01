@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "room")
@@ -25,6 +26,8 @@ public class Room {
     private BigDecimal pricePerPeron;
     @Column(name = "img_url")
     private String imgUrl;
+    @Column(name = "room_number")
+    private Integer roomNumber;
     @OneToMany(mappedBy = "room")
     private List<Reservation> reservations;
     @OneToMany(mappedBy = "room")
@@ -41,12 +44,13 @@ public class Room {
     public Room() {
     }
 
-    public Room(String description, Integer forHowManyPeople, boolean isBathroom, BigDecimal pricePerPeron, String imgUrl) {
+    public Room(String description, Integer forHowManyPeople, boolean isBathroom, BigDecimal pricePerPeron, String imgUrl, Integer roomNumber) {
         this.description = description;
         this.forHowManyPeople = forHowManyPeople;
         this.isBathroom = isBathroom;
         this.pricePerPeron = pricePerPeron;
         this.imgUrl = imgUrl;
+        this.roomNumber = roomNumber;
     }
 
     public Long getId() {
@@ -115,6 +119,14 @@ public class Room {
         this.imgUrl = imgUrl;
     }
 
+    public Integer getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(Integer roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+
     public void addReservation(Reservation reservation) {
         if (reservations == null) {
             reservations = new ArrayList<>();
@@ -130,4 +142,16 @@ public class Room {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Room room = (Room) o;
+        return isBathroom == room.isBathroom && Objects.equals(id, room.id) && Objects.equals(description, room.description) && Objects.equals(forHowManyPeople, room.forHowManyPeople) && Objects.equals(pricePerPeron, room.pricePerPeron) && Objects.equals(imgUrl, room.imgUrl) && Objects.equals(roomNumber, room.roomNumber) && Objects.equals(reservations, room.reservations) && Objects.equals(unavailableTerms, room.unavailableTerms);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, description, forHowManyPeople, isBathroom, pricePerPeron, imgUrl, roomNumber, reservations, unavailableTerms);
+    }
 }
