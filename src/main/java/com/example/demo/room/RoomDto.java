@@ -11,6 +11,7 @@ public class RoomDto {
     private BigDecimal pricePerPeron;
     private String imgUrl;
     private Integer roomNumber;
+    private Integer placesLeft;
 
     public Long getId() {
         return id;

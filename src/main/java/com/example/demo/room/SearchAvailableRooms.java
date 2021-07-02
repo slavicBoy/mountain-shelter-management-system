@@ -43,7 +43,7 @@ public class SearchAvailableRooms {
                 }
             }
 
-            if(!isSpecificTermAvailable){
+            if (!isSpecificTermAvailable) {
                 isSpecificTermAvailable = true;
                 continue;
             } else {
@@ -64,7 +64,10 @@ public class SearchAvailableRooms {
             }
 
             if (!reservationDayEnd.isBefore(unavailableTerm.getStartOfUnavailableTerm())) {
-                return ifPlacesAreAvailable(unavailableTerm, numberOfPeople);
+                if (ifPlacesAreAvailable(unavailableTerm, numberOfPeople) >= 1) {
+                    return true;
+                }
+                return false;
             }
         }
 
@@ -74,18 +77,18 @@ public class SearchAvailableRooms {
                 return true;
             }
 
-            if (!reservationDayStart.isAfter(unavailableTerm.getEndOfUnavailableTerm())) {
-                return ifPlacesAreAvailable(unavailableTerm, numberOfPeople);
-
+            if (ifPlacesAreAvailable(unavailableTerm, numberOfPeople) >= 1) {
+                return true;
             }
+            return false;
         }
 
         return !unavailableTerm.getStartOfUnavailableTerm().isEqual(reservationDayStart);
 
     }
 
-    private boolean ifPlacesAreAvailable(UnavailableTerm unavailableTerm, int numberOfPeople) {
-          return unavailableTerm.getPlacesAvailable() >= numberOfPeople;
+    private int ifPlacesAreAvailable(UnavailableTerm unavailableTerm, int numberOfPeople) {
+        return unavailableTerm.getPlacesAvailable() - numberOfPeople;
     }
 
 
