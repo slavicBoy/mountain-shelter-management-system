@@ -13,6 +13,19 @@ public class RoomDto {
     private Integer roomNumber;
     private Integer placesLeft;
 
+    public RoomDto(String description, Integer forHowManyPeople, boolean isBathroom, BigDecimal pricePerPeron, String imgUrl, Integer roomNumber, Integer placesLeft) {
+        this.description = description;
+        this.forHowManyPeople = forHowManyPeople;
+        this.isBathroom = isBathroom;
+        this.pricePerPeron = pricePerPeron;
+        this.imgUrl = imgUrl;
+        this.roomNumber = roomNumber;
+        this.placesLeft = placesLeft;
+    }
+
+    public RoomDto() {
+    }
+
     public Long getId() {
         return id;
     }
@@ -69,6 +82,14 @@ public class RoomDto {
         this.roomNumber = roomNumber;
     }
 
+    public Integer getPlacesLeft() {
+        return placesLeft;
+    }
+
+    public void setPlacesLeft(Integer placesLeft) {
+        this.placesLeft = placesLeft;
+    }
+
     @Override
     public String toString() {
         return "RoomDto{" +
@@ -79,6 +100,7 @@ public class RoomDto {
                 ", pricePerPeron=" + pricePerPeron +
                 ", imgUrl='" + imgUrl + '\'' +
                 ", roomNumber=" + roomNumber +
+                ", placesLeft=" + placesLeft +
                 '}';
     }
 }

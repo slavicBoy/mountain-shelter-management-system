@@ -8,49 +8,59 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
 public class SearchAvailableRooms {
 
     private RoomRepository roomRepository;
-
+    private int theSmallerNumberAvailablePlaces = 1000;
 
     @Autowired
     public SearchAvailableRooms(RoomRepository roomRepository) {
         this.roomRepository = roomRepository;
     }
 
-    public List<Room> findAvailableRooms(LocalDate reservationDayStart, LocalDate reservationDayEnd, int numberOfPeople) {
-
+    public Map<Room, Integer> findAvailableRooms(LocalDate reservationDayStart, LocalDate reservationDayEnd, int numberOfPeople) {
         List<Room> rooms = roomRepository.findAll()
                 .stream()
                 .filter(room -> room.getForHowManyPeople() >= numberOfPeople)
                 .collect(Collectors.toList());
-
-        List<Room> availableRooms = new ArrayList<>();
-
         boolean isSpecificTermAvailable = true;
+
+        Map<Room, Integer> roomWithAvailablePlaces = new HashMap<>();
 
         for (Room room : rooms) {
             List<UnavailableTerm> unavailableTerms = new ArrayList<>(room.getUnavailableTerms());
 
-            for (UnavailableTerm unavailableTerm : unavailableTerms) {
-                isSpecificTermAvailable = checkSpecificTerm(unavailableTerm, reservationDayStart, reservationDayEnd, numberOfPeople);
-                if (!isSpecificTermAvailable) {
-                    break;
+            int numberOfUnavailableTerms = unavailableTerms.size();
+            if (numberOfUnavailableTerms == 0) {
+                roomWithAvailablePlaces.put(room, room.getForHowManyPeople());
+            } else {
+                for (UnavailableTerm unavailableTerm : unavailableTerms) {
+                    isSpecificTermAvailable = checkSpecificTerm(unavailableTerm, reservationDayStart, reservationDayEnd, numberOfPeople);
+
+                    if (!isSpecificTermAvailable) {
+                        break;
+                    }
+
                 }
+                if (isSpecificTermAvailable) {
+                    if (theSmallerNumberAvailablePlaces == 1000) {
+                        roomWithAvailablePlaces.put(room, room.getForHowManyPeople());
+                    } else {
+                        roomWithAvailablePlaces.put(room, theSmallerNumberAvailablePlaces);
+                    }
+                }
+
+                theSmallerNumberAvailablePlaces = 1000;
             }
 
-            if (!isSpecificTermAvailable) {
-                isSpecificTermAvailable = true;
-                continue;
-            } else {
-                availableRooms.add(room);
-            }
         }
-        return availableRooms;
+        return roomWithAvailablePlaces;
     }
 
 
@@ -64,10 +74,7 @@ public class SearchAvailableRooms {
             }
 
             if (!reservationDayEnd.isBefore(unavailableTerm.getStartOfUnavailableTerm())) {
-                if (ifPlacesAreAvailable(unavailableTerm, numberOfPeople) >= 1) {
-                    return true;
-                }
-                return false;
+                return ifPlacesAreAvailable(unavailableTerm, numberOfPeople);
             }
         }
 
@@ -77,19 +84,32 @@ public class SearchAvailableRooms {
                 return true;
             }
 
-            if (ifPlacesAreAvailable(unavailableTerm, numberOfPeople) >= 1) {
-                return true;
+            if (!reservationDayStart.isAfter(unavailableTerm.getEndOfUnavailableTerm())) {
+                return ifPlacesAreAvailable(unavailableTerm, numberOfPeople);
             }
-            return false;
         }
 
-        return !unavailableTerm.getStartOfUnavailableTerm().isEqual(reservationDayStart);
+        if (unavailableTerm.getStartOfUnavailableTerm().isEqual(reservationDayStart)) {
+            return ifPlacesAreAvailable(unavailableTerm, numberOfPeople);
+        }
 
+        return true;
     }
 
-    private int ifPlacesAreAvailable(UnavailableTerm unavailableTerm, int numberOfPeople) {
-        return unavailableTerm.getPlacesAvailable() - numberOfPeople;
+
+    private boolean ifPlacesAreAvailable(UnavailableTerm unavailableTerm, int numberOfPeople) {
+        if (unavailableTerm.getPlacesAvailable() - numberOfPeople > -1) {
+            if (unavailableTerm.getPlacesAvailable() < theSmallerNumberAvailablePlaces) {
+                setTheSmallerNumberAvailablePlaces(unavailableTerm.getPlacesAvailable());
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
+    public void setTheSmallerNumberAvailablePlaces(int theSmallerNumberAvailablePlaces) {
+        this.theSmallerNumberAvailablePlaces = theSmallerNumberAvailablePlaces;
+    }
 }

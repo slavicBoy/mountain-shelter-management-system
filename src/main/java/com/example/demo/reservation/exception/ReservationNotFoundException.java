@@ -1,4 +1,4 @@
-package com.example.demo.reservation;
+package com.example.demo.reservation.exception;
 
 public class ReservationNotFoundException extends RuntimeException{
 

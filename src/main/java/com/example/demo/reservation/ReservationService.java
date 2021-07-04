@@ -1,5 +1,6 @@
 package com.example.demo.reservation;
 
+import com.example.demo.reservation.exception.ReservationNotFoundException;
 import com.example.demo.reservation.repository.ReservationRepository;
 import com.example.demo.reservation.unavailableTerm.DateUnavailableException;
 import com.example.demo.room.RoomNotFoundException;

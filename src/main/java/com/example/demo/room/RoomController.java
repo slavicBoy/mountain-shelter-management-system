@@ -20,8 +20,8 @@ public class RoomController {
     }
 
     @PostMapping("/rooms")
-    public List<RoomDto> findAll(@RequestBody ArrivalDetailsDto arrivalDetails) {
-        return roomService.findAll(arrivalDetails);
+    public List<RoomDto> findAvailableRooms(@RequestBody ArrivalDetailsDto arrivalDetails) {
+        return roomService.findAvailableRooms(arrivalDetails);
     }
 
 /*    @GetMapping("/rooms/{id}")
@@ -35,11 +35,17 @@ public class RoomController {
 
     @GetMapping("/rooms/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
-        try{
+        try {
             return ResponseEntity.ok(roomService.findById(id));
-        }catch (RoomNotFoundException e){
+        } catch (RoomNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @GetMapping("/rooms")
+    public List<RoomDto> findAll() {
+        return roomService.findAll();
+    }
+
 
 }

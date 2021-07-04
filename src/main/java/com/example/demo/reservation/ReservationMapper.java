@@ -22,7 +22,8 @@ public class ReservationMapper {
         dto.setAmountWithDiscount(reservation.getAmountWithDiscount());
         dto.setAdvancePaid(reservation.getDetails().getAdvancePaid());
         dto.setAccommodationPaid(reservation.getDetails().getAccommodationPaid());
-        dto.setRoomId(reservation.getRoom().getId());
+        dto.setRoomNumber(reservation.getRoom().getRoomNumber());
+        dto.setPlacesLeft(reservation.getUnavailableTerm().getPlacesAvailable());
         return dto;
     }
 
