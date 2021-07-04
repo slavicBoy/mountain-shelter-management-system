@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/reservations")
 public class ReservationController {
 
     private ReservationService reservationService;
@@ -24,7 +24,7 @@ public class ReservationController {
         this.reservationService = reservationService;
     }
 
-    @GetMapping("/reservations")
+    @GetMapping
     @PreAuthorize("hasRole('WORKER') or hasRole('OWNER')")
     public List<ReservationDto> findAll() {
         return reservationService.findAll();
@@ -32,36 +32,34 @@ public class ReservationController {
     }
 
 
-    @GetMapping("/reservations/{id}")
+    @GetMapping("/{id}")
     @PreAuthorize("hasRole('OWNER')")
     public ReservationDto getReservationById(@PathVariable Long id) {
         return reservationService.findById(id);
     }
 
-    @PostMapping("/rooms/{id}/reservations") // s
+
     public ResponseEntity<?> createReservation(@PathVariable Long id, @Valid @RequestBody ReservationDto reservationDto) {
-        System.out.println(reservationDto.toString());
         Optional<ReservationDto> reservationOptional = reservationService.create(reservationDto, id);
         if (reservationOptional.isPresent()) {
             return ResponseEntity.ok(reservationOptional.get());
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
     }
 
 
-    @PutMapping("/reservations/{id}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasRole('OWNER')")
-    public ResponseEntity<?> updateReservation(@PathVariable Long id, @RequestBody Reservation reservation) {
+    public ResponseEntity<?> updateReservation(@PathVariable Long id, @RequestBody ReservationDto reservationDto) {
 
-        Optional<ReservationDto> reservationDtoOptional = reservationService.updateReservation(id, reservation);
+        Optional<ReservationDto> reservationDtoOptional = reservationService.updateReservation(id, reservationDto);
         if (reservationDtoOptional.isPresent()) {
             return ResponseEntity.ok(reservationDtoOptional.get());
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @PatchMapping("/reservations/{id}")
+    @PatchMapping("/id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('OWNER')")
     public ResponseEntity<?> confirmPaymentOrDiscount(@PathVariable Long id, @RequestBody Map<String, Boolean> updates) {
@@ -81,7 +79,7 @@ public class ReservationController {
     }
 
 
-    @DeleteMapping("/reservations/{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('OWNER')")
     public ResponseEntity<Map<String, Boolean>> deleteReservation(@PathVariable Long id) {
         Optional<ReservationDto> reservationDtoOptional = reservationService.deleteReservation(id);

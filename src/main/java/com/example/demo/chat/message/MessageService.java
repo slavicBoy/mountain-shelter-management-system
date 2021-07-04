@@ -22,7 +22,8 @@ public class MessageService {
         this.userRepository = userRepository;
     }
 
-    public MessageDto sendMessage(Message message) {
+    public MessageDto sendMessage(MessageDto messageDto) {
+        Message message = MessageMapper.toEntity(messageDto);
         setTimeOnMessage(message);
         assignUserToMessage(message);
         messageRepository.save(message);

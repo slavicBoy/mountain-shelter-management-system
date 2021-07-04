@@ -27,7 +27,8 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public UserDto updateUser(Long id, User updatedUser) {
+    public UserDto updateUser(Long id, UserDto updatedUserDto) {
+        User updatedUser = UserMapper.toEntity(updatedUserDto);
         User user = userRepository.getOne(id);
         user.setFirstName(updatedUser.getFirstName());
         user.setLastName(updatedUser.getLastName());

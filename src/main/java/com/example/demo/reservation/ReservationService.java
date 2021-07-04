@@ -95,11 +95,13 @@ public class ReservationService {
         return ReservationMapper.toDto(reservationRepository.getOne(id));
     }
 
-    public Optional<ReservationDto> updateReservation(Long id, Reservation updatedReservation) {
+    public Optional<ReservationDto> updateReservation(Long id, ReservationDto updatedReservationDto) {
         try {
             Reservation reservation = reservationRepository
                     .findById(id)
                     .orElseThrow(() -> new ReservationNotFoundException("Reservation does not exist with this id"));
+
+            Reservation updatedReservation = ReservationMapper.toEntity(updatedReservationDto);
 
             reservation.setFirstName(updatedReservation.getFirstName());
             reservation.setLastName(updatedReservation.getLastName());

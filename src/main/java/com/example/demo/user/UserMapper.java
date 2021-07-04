@@ -10,4 +10,15 @@ public class UserMapper {
                 .email(user.getEmail())
                 .build();
     }
+
+    public static User toEntity(UserDto userDto) {
+        User user = new User();
+        user.setId(userDto.getId());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setEmail(userDto.getEmail());
+        return user;
+    }
+
+
 }

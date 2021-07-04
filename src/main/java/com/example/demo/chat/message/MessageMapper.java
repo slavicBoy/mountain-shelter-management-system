@@ -2,6 +2,7 @@ package com.example.demo.chat.message;
 
 import com.example.demo.chat.message.Message;
 import com.example.demo.chat.message.MessageDto;
+import com.example.demo.user.User;
 
 public class MessageMapper {
 
@@ -17,13 +18,13 @@ public class MessageMapper {
                 .build();
     }
 
-// messageDto.setContent(message.getContent());
-//        messageDto.setLikes(message.getLikes());
-//        messageDto.setLocalDate(message.getLocalDate());
-//        messageDto.setLocalTime(message.getLocalTime());
-//        messageDto.setFirstName(message.getUser().getFirstName());
-//        messageDto.setLastName(message.getUser().getLastName());
-//        messageDto.setUserId(message.getUser().getId());
+    public static Message toEntity(MessageDto messageDto){
+        Message message = new Message();
+        message.setContent(messageDto.getContent());
+        message.setUser(new User());
+        message.getUser().setId(messageDto.getUserId());
+        return message;
+    }
 
 
 }
