@@ -38,10 +38,10 @@ public class ReservationController {
         return reservationService.findById(id);
     }
 
-    @PostMapping("/rooms/{id}/reservation") // s
-    public ResponseEntity<?> createReservation(@PathVariable Long id, @Valid @RequestBody Reservation reservation) { //ReservationDTO
-        System.out.println(reservation.getDetails().toString());
-        Optional<ReservationDto> reservationOptional = reservationService.create(reservation, id);
+    @PostMapping("/rooms/{id}/reservations") // s
+    public ResponseEntity<?> createReservation(@PathVariable Long id, @Valid @RequestBody ReservationDto reservationDto) {
+        System.out.println(reservationDto.toString());
+        Optional<ReservationDto> reservationOptional = reservationService.create(reservationDto, id);
         if (reservationOptional.isPresent()) {
             return ResponseEntity.ok(reservationOptional.get());
         }

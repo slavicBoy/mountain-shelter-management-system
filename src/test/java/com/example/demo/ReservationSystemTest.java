@@ -10,7 +10,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 @SpringBootTest
-class DemoApplicationTests {
+class ReservationSystemTest {
     UnavailableTerm unavailableTerm = new UnavailableTerm(LocalDate.of(2020, 3, 5),
             LocalDate.of(2020, 3, 15));
     boolean isTermFree = true;

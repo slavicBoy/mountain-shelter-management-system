@@ -13,17 +13,63 @@ public class RoomDto {
     private Integer roomNumber;
     private Integer placesLeft;
 
-    public RoomDto(String description, Integer forHowManyPeople, boolean isBathroom, BigDecimal pricePerPeron, String imgUrl, Integer roomNumber, Integer placesLeft) {
-        this.description = description;
-        this.forHowManyPeople = forHowManyPeople;
-        this.isBathroom = isBathroom;
-        this.pricePerPeron = pricePerPeron;
-        this.imgUrl = imgUrl;
-        this.roomNumber = roomNumber;
-        this.placesLeft = placesLeft;
+
+
+
+    private RoomDto() {
+
     }
 
-    public RoomDto() {
+    public static RoomDtoBuilder getBuilder() {
+        return new RoomDtoBuilder();
+ 
+    }
+
+    static class RoomDtoBuilder {
+        private RoomDto roomDto = new RoomDto();
+
+        public RoomDtoBuilder id(Long id){
+            roomDto.id = id;
+            return this;
+        }
+
+        public RoomDtoBuilder description(String description){
+            roomDto.description = description;
+            return this;
+        }
+
+        public RoomDtoBuilder isBathroom(boolean isBathroom){
+            roomDto.isBathroom = isBathroom;
+            return this;
+        }
+
+        public RoomDtoBuilder forHowManyPeople(int howManyPeople){
+            roomDto.forHowManyPeople = howManyPeople;
+            return this;
+        }
+
+        public RoomDtoBuilder pricePerPerson(BigDecimal pricePerPerson){
+            roomDto.pricePerPeron = pricePerPerson;
+            return this;
+        }
+
+        public RoomDtoBuilder imgUrl(String imgUrl){
+            roomDto.imgUrl = imgUrl;
+            return this;
+        }
+
+        public RoomDtoBuilder roomNumber(int roomNumber){
+            roomDto.roomNumber = roomNumber;
+            return this;
+        }
+
+        public RoomDtoBuilder placesLeft(int placesLeft){
+            roomDto.placesLeft = placesLeft;
+            return this;
+        }
+        public RoomDto build() {
+            return roomDto;
+        }
     }
 
     public Long getId() {

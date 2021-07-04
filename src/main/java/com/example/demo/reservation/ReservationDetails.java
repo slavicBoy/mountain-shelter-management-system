@@ -41,6 +41,7 @@ public class ReservationDetails {
 
     @Column(name = "is_accommodation_paid")
     private Boolean isAccommodationPaid;
+
     @OneToOne(mappedBy = "details")
     private Reservation reservation;
 
