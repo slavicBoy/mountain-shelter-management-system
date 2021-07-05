@@ -19,56 +19,6 @@ public class MessageDto {
 
     private long userId;
 
-    private MessageDto() {
-    }
-
-    public static MessageBuilder getBuilder() {
-        return new MessageBuilder();
-    }
-
-    static class MessageBuilder {
-        private MessageDto messageDto = new MessageDto();
-
-        public MessageBuilder content(String content) {
-            messageDto.content = content;
-            return this;
-        }
-
-        public MessageBuilder likes(int likes) {
-            messageDto.likes = likes;
-            return this;
-        }
-
-        public MessageBuilder localDate(LocalDate localDate) {
-            messageDto.localDate = localDate;
-            return this;
-        }
-
-        public MessageBuilder localTime(LocalTime localTime) {
-            messageDto.localTime = localTime;
-            return this;
-        }
-
-        public MessageBuilder firstName(String firstName) {
-            messageDto.firstName = firstName;
-            return this;
-        }
-
-        public MessageBuilder lastName(String lastName) {
-            messageDto.lastName = lastName;
-            return this;
-        }
-
-        public MessageBuilder userId(long id) {
-            messageDto.userId = id;
-            return this;
-        }
-
-        public MessageDto build() {
-            return messageDto;
-        }
-    }
-
     public LocalDate getLocalDate() {
         return localDate;
     }
