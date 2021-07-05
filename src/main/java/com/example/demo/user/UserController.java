@@ -19,23 +19,21 @@ import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/api/panel")
+@RequestMapping("/api/panel/workers")
 public class UserController {
 
-    private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder encoder;
     private UserService userService;
 
     @Autowired
-    public UserController(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder encoder, UserService userService) {
-        this.userRepository = userRepository;
+    public UserController(RoleRepository roleRepository, PasswordEncoder encoder, UserService userService) {
         this.roleRepository = roleRepository;
         this.encoder = encoder;
         this.userService = userService;
     }
 
-    @PostMapping("/workers")
+    @PostMapping
     @PreAuthorize("hasRole('OWNER')")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         try
@@ -46,39 +44,39 @@ public class UserController {
         }
     }
 
-    @GetMapping("/workers")
+    @GetMapping
     @PreAuthorize("hasRole('OWNER')")
     public List<UserDto> findAll() {
         return userService.findAll();
     }
 
-    @GetMapping("/workers/{id}")
+    @GetMapping("/{id}")
     @PreAuthorize("hasRole('OWNER')")
     public UserDto getReservationById(@PathVariable Long id) {
         return userService.findById(id);
     }
 
-    @GetMapping("/workers/notification/{id}")
+    @GetMapping("/notification/{id}")
     @PreAuthorize("hasRole('OWNER') or hasRole('WORKER')")
     public int getNotification(@PathVariable Long id) {
         return userService.getAmountOfNotifications(id);
     }
 
-    @GetMapping("/workers/notification/clear/{id}")
+    @GetMapping("/notification/clear/{id}")
     @PreAuthorize("hasRole('OWNER') or hasRole('WORKER')")
     public void clearNotification(@PathVariable Long id) {
         userService.clearNotifications(id);
     }
 
-    @PutMapping("/workers/{id}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasRole('OWNER')")
-    public UserDto updateReservation(@PathVariable Long id, @RequestBody User user) {
+    public UserDto updateUser(@PathVariable Long id, @RequestBody User user) {
         return userService.updateUser(id, user);
     }
 
-    @DeleteMapping("/workers/{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('OWNER')")
-    public void deleteReservation(@PathVariable Long id) {
+    public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
     }
 }
