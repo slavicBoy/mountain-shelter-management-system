@@ -36,11 +36,11 @@ public class ReservationService {
     public ReservationService(ReservationRepository reservationRepository, RoomRepository roomRepository, UnavailableTermRepository unavailableTermRepository, CheckAndSetDate checkAndSetDate) {
         this.reservationRepository = reservationRepository;
         this.roomRepository = roomRepository;
-        this.unavailableTermRepository = unavailableTermRepository;
         this.checkAndSetDate = checkAndSetDate;
+        this.unavailableTermRepository = unavailableTermRepository;
     }
 
-    public Optional<ReservationDto> create(ReservationDto reservationDto, Long id) {
+    public Optional<ReservationDto> create(Reservation reservation, Long id) {
         Room room;
         try {
             room = roomRepository
@@ -50,9 +50,6 @@ public class ReservationService {
             System.err.println("Room does not exist with this id");
             return Optional.empty();
         }
-
-        Reservation reservation = ReservationMapper.toEntity(reservationDto);
-
 
         try {
             Optional<UnavailableTerm> unavailableTermOptional = checkAndSetDate.isRoomAvailable(room, roomRepository, reservation);
@@ -69,7 +66,8 @@ public class ReservationService {
             reservation.getDetails().setAdvancePaid(false);
             addNewNotification();
             reservationRepository.save(reservation);
-            return Optional.of(ReservationMapper.toDto(reservation));
+            ReservationDto reservationDto = ReservationMapper.toDto(reservation);
+            return Optional.of(reservationDto);
 
         } catch (DateUnavailableException | RoomTooSmallException e) {
             return Optional.empty();
@@ -95,13 +93,11 @@ public class ReservationService {
         return ReservationMapper.toDto(reservationRepository.getOne(id));
     }
 
-    public Optional<ReservationDto> updateReservation(Long id, ReservationDto updatedReservationDto) {
+    public Optional<ReservationDto> updateReservation(Long id, Reservation updatedReservation) {
         try {
             Reservation reservation = reservationRepository
                     .findById(id)
                     .orElseThrow(() -> new ReservationNotFoundException("Reservation does not exist with this id"));
-
-            Reservation updatedReservation = ReservationMapper.toEntity(updatedReservationDto);
 
             reservation.setFirstName(updatedReservation.getFirstName());
             reservation.setLastName(updatedReservation.getLastName());
