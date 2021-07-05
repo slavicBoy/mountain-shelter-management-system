@@ -38,7 +38,7 @@ public class ReservationController {
         return reservationService.findById(id);
     }
 
-    @PostMapping("/rooms/{id}/reservation") // s
+
     public ResponseEntity<?> createReservation(@PathVariable Long id, @Valid @RequestBody Reservation reservation) { //ReservationDTO
         System.out.println(reservation.getDetails().toString());
         Optional<ReservationDto> reservationOptional = reservationService.create(reservation, id);
@@ -53,7 +53,6 @@ public class ReservationController {
     @PutMapping("/reservations/{id}")
     @PreAuthorize("hasRole('OWNER')")
     public ResponseEntity<?> updateReservation(@PathVariable Long id, @RequestBody Reservation reservation) {
-
         Optional<ReservationDto> reservationDtoOptional = reservationService.updateReservation(id, reservation);
         if (reservationDtoOptional.isPresent()) {
             return ResponseEntity.ok(reservationDtoOptional.get());
