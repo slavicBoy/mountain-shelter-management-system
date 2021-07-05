@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/api/")
+@RequestMapping("/api/chat")
 public class MessageController {
 
     private MessageService messageService;
@@ -17,13 +17,13 @@ public class MessageController {
         this.messageService = messageService;
     }
 
-    @PostMapping("/chat/message")
+    @PostMapping("/message")
     @PreAuthorize("hasRole('OWNER') or hasRole('WORKER')")
     public ResponseEntity<?> addMessage(@RequestBody Message messageToSend) {
         MessageDto messageDto = messageService.sendMessage(messageToSend);
         return ResponseEntity.ok(messageDto);
     }
-    @GetMapping("/chat/message")
+    @GetMapping("/message")
     @PreAuthorize("hasRole('OWNER') or hasRole('WORKER')")
     public ResponseEntity<?> getMessages(){
 

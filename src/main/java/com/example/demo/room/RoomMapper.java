@@ -15,10 +15,3 @@ public class RoomMapper {
     }
 }
 
-//       dto.setId(room.getId());
-//               dto.setDescription(room.getDescription());
-//               dto.setBathroom(room.isBathroom());
-//               dto.setForHowManyPeople(room.getForHowManyPeople());
-//               dto.setPricePerPeron(room.getPricePerPeron());
-//               dto.setImgUrl(room.getImgUrl());
-//               dto.setRoomNumber(room.getRoomNumber());
