@@ -50,7 +50,8 @@ public class RoomController {
     public ResponseEntity<?> createReservation(@PathVariable Long id, @Valid @RequestBody Reservation reservationDto) {
         return reservationController.createReservation(id, reservationDto);
     }
-    @GetMapping("/rooms")
+
+    @GetMapping
     public List<RoomDto> findAll() {
         return roomService.findAll();
     }
