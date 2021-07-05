@@ -2,6 +2,7 @@ package com.example.demo.user;
 
 import com.example.demo.security.role.ERole;
 import com.example.demo.security.role.Role;
+import com.example.demo.security.role.RoleNotFoundException;
 import com.example.demo.security.role.RoleRepository;
 import com.example.demo.security.payload.request.SignupRequest;
 import com.example.demo.security.payload.response.MessageResponse;
@@ -35,52 +36,18 @@ public class UserController {
     }
 
     @PostMapping("/workers")
-//    @PreAuthorize("hasRole('OWNER')")
+    @PreAuthorize("hasRole('OWNER')")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-        if (userRepository.existsByUsername(signUpRequest.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
+        try
+        {
+            return userService.registerUser(signUpRequest, encoder, roleRepository);
+        } catch (RoleNotFoundException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Email is already in use!"));
-        }
-
-
-        User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword()), signUpRequest.getFirstName(), signUpRequest.getLastName(), signUpRequest.getNotification());
-
-        Set<String> strRoles = signUpRequest.getRole();
-        Set<Role> roles = new HashSet<>();
-
-        if (strRoles == null) {
-            Role workerRole = roleRepository.findByName(ERole.ROLE_WORKER)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roles.add(workerRole);
-        } else {
-            strRoles.forEach(role -> {
-                if ("owner".equals(role)) {
-                    Role adminRole = roleRepository.findByName(ERole.ROLE_OWNER)
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                    roles.add(adminRole);
-                } else {
-                    Role userRole = roleRepository.findByName(ERole.ROLE_WORKER)
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                    roles.add(userRole);
-                }
-            });
-        }
-
-        user.setRoles(roles);
-        userRepository.save(user);
-
-        return ResponseEntity.ok(new MessageResponse("Pracownik dodany do bazy!"));
     }
 
     @GetMapping("/workers")
-//    @PreAuthorize("hasRole('OWNER')")
+    @PreAuthorize("hasRole('OWNER')")
     public List<UserDto> findAll() {
         return userService.findAll();
     }
