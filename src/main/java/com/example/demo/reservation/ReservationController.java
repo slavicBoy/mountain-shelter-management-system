@@ -38,8 +38,12 @@ public class ReservationController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('OWNER')")
-    public ReservationDto getReservationById(@PathVariable Long id) {
-        return reservationService.findById(id);
+    public ResponseEntity<?> getReservationById(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(reservationService.findById(id));
+        } catch (RoomNotFoundException | DateUnavailableException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 

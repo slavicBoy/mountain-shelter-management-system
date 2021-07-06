@@ -41,36 +41,20 @@ public class ReservationService {
 
     public ReservationDto create(Reservation reservation, Long id) {
         Room room;
-
         room = roomRepository
                 .findById(id)
                 .orElseThrow(() -> new RoomNotFoundException("Room does not exist with this id"));
-
 
         Optional<UnavailableTerm> unavailableTermOptional = reservationModelLogic.isRoomAvailable(room, roomRepository, reservation);
         if (unavailableTermOptional.isEmpty()) {
             throw new DateUnavailableException("That date is unavailable");
         }
         UnavailableTerm unavailableTerm = unavailableTermOptional.get();
-        reservation.getDetails().setDateOfAddingReservation(LocalDate.now());
-        reservation.setUnavailableTerm(unavailableTerm); ////// W ENCJI REZERWACJA
-        reservation.setRoom(room);
-        reservation.getDetails().setWasDiscountShowed(false);
-        reservation.getDetails().setAccommodationPaid(false);
-        reservation.getDetails().setAdvancePaid(false);
-        addNewNotification();
+
+        reservationModelLogic.setObligatoryInfoForEveryReservation(reservation, unavailableTerm, room);
+        reservationModelLogic.addNewNotification();
         reservationRepository.save(reservation);
         return ReservationMapper.toDto(reservation);
-
-
-    }
-
-
-    private void addNewNotification() {
-        for (User user : userRepository.findAll()) {
-            user.incrementNotification();
-            userRepository.save(user);
-        }
     }
 
     public List<ReservationDto> findAll() {
@@ -81,40 +65,31 @@ public class ReservationService {
     }
 
     public ReservationDto findById(Long id) {
-        return ReservationMapper.toDto(reservationRepository.getOne(id));
-    }
-
-    public ReservationDto updateReservation(Long id, Reservation updatedReservation) {
-
         Reservation reservation = reservationRepository
                 .findById(id)
                 .orElseThrow(() -> new ReservationNotFoundException("Reservation does not exist with this id"));
 
-        reservation.setFirstName(updatedReservation.getFirstName());
-        reservation.setLastName(updatedReservation.getLastName());
-        reservation.getDetails().setExtraInformation(updatedReservation.getDetails().getExtraInformation());
-        reservation.getDetails().setEmail(updatedReservation.getDetails().getEmail());
-        reservation.setPhoneNumber(updatedReservation.getPhoneNumber());
-        reservationRepository.save(reservation);
-
-
         return ReservationMapper.toDto(reservation);
+    }
 
+    public ReservationDto updateReservation(Long id, Reservation updatedReservation) {
+        Reservation reservation = reservationRepository
+                .findById(id)
+                .orElseThrow(() -> new ReservationNotFoundException("Reservation does not exist with this id"));
 
+        reservationModelLogic.setUpdatedInfos(reservation, updatedReservation);
+        reservationRepository.save(reservation);
+        return ReservationMapper.toDto(reservation);
     }
 
 
     public ReservationDto confirmPaymentOrDiscount(Long id, Map<String, Boolean> updates) {
-
         Reservation reservation = reservationRepository
                 .findById(id)
                 .orElseThrow(() -> new ReservationNotFoundException("Reservation does not exist with this id"));
 
-        reservation.getDetails().setWasDiscountShowed(updates.get("wasDiscountShowed"));
-        reservation.getDetails().setAdvancePaid(updates.get("advancePaid"));
-        reservation.getDetails().setAccommodationPaid(updates.get("accommodationPaid"));
+        reservationModelLogic.setDiscountOrPayment(reservation, updates);
         reservationRepository.save(reservation);
-
         return ReservationMapper.toDto(reservation);
     }
 
@@ -123,7 +98,6 @@ public class ReservationService {
         Reservation reservation = reservationRepository
                 .findById(id)
                 .orElseThrow(() -> new ReservationNotFoundException("Reservation does not exist with this id"));
-
         reservationRepository.delete(reservation);
         return ReservationMapper.toDto(reservation);
 

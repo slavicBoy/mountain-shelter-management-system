@@ -5,12 +5,15 @@ import com.example.demo.reservation.unavailableTerm.DateUnavailableException;
 import com.example.demo.reservation.unavailableTerm.UnavailableTerm;
 import com.example.demo.room.Room;
 import com.example.demo.room.RoomRepository;
+import com.example.demo.user.User;
+import com.example.demo.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -18,11 +21,12 @@ import java.util.stream.IntStream;
 public class ReservationModelLogic {
 
     private RoomRepository roomRepository;
-
+    private UserRepository userRepository;
 
     @Autowired
-    public ReservationModelLogic(RoomRepository roomRepository) {
+    public ReservationModelLogic(RoomRepository roomRepository, UserRepository userRepository) {
         this.roomRepository = roomRepository;
+        this.userRepository = userRepository;
     }
 
     public Optional<UnavailableTerm> isRoomAvailable(Room room, RoomRepository roomRepository, Reservation reservation) {
@@ -108,7 +112,40 @@ public class ReservationModelLogic {
         unavailableTerm.setRoom(roomFromDataBase);
         unavailableTerm.setPlacesAvailable(dateWithTheLastAmountOfPeople - reservation.getHowManyPeople());
     }
+
+    public void setUpdatedInfos(Reservation reservation, Reservation updatedReservation) {
+        reservation.setFirstName(updatedReservation.getFirstName());
+        reservation.setLastName(updatedReservation.getLastName());
+        reservation.getDetails().setExtraInformation(updatedReservation.getDetails().getExtraInformation());
+        reservation.getDetails().setEmail(updatedReservation.getDetails().getEmail());
+        reservation.setPhoneNumber(updatedReservation.getPhoneNumber());
+    }
+
+    public void setDiscountOrPayment(Reservation reservation, Map<String, Boolean> updates) {
+        reservation.getDetails().setWasDiscountShowed(updates.get("wasDiscountShowed"));
+        reservation.getDetails().setAdvancePaid(updates.get("advancePaid"));
+        reservation.getDetails().setAccommodationPaid(updates.get("accommodationPaid"));
+    }
+
+    public void addNewNotification() {
+        for (User user : userRepository.findAll()) {
+            user.incrementNotification();
+            userRepository.save(user);
+        }
+    }
+
+    public void setObligatoryInfoForEveryReservation(Reservation reservation, UnavailableTerm unavailableTerm, Room room) {
+        reservation.getDetails().setDateOfAddingReservation(LocalDate.now());
+        reservation.setUnavailableTerm(unavailableTerm);
+        reservation.setRoom(room);
+        reservation.getDetails().setWasDiscountShowed(false);
+        reservation.getDetails().setAccommodationPaid(false);
+        reservation.getDetails().setAdvancePaid(false);
+    }
+
 }
+
+
 
 
 

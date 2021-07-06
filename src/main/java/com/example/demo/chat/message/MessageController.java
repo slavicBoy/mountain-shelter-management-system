@@ -26,7 +26,6 @@ public class MessageController {
     @GetMapping("/chat/message")
     @PreAuthorize("hasRole('OWNER') or hasRole('WORKER')")
     public ResponseEntity<?> getMessages(){
-
         return ResponseEntity.ok(messageService.getMessages());
     }
 
