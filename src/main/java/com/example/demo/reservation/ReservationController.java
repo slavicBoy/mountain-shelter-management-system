@@ -70,6 +70,10 @@ public class ReservationController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('OWNER')")
     public ResponseEntity<?> confirmPaymentOrDiscount(@PathVariable Long id, @RequestBody Map<String, Boolean> updates) {
+        for (Map.Entry<String, Boolean> stringBooleanEntry : updates.entrySet()) {
+            System.out.println(stringBooleanEntry);
+        }
+
         try {
             return ResponseEntity.ok(reservationService.confirmPaymentOrDiscount(id, updates));
         } catch (ReservationNotFoundException e) {

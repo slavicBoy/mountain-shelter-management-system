@@ -30,15 +30,6 @@ public class RoomController {
         return roomService.findAvailableRooms(arrivalDetails);
     }
 
-/*    @GetMapping("/rooms/{id}")
-    public ResponseEntity<?> findById(@PathVariable Long id) {
-        Optional<RoomDto> roomDtoOptional = roomService.findById(id);
-        if (roomDtoOptional.isPresent()) {
-            return ResponseEntity.ok(roomDtoOptional.get());
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }*/
-
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         try {
