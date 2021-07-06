@@ -1,5 +1,9 @@
 package com.example.demo.reservation;
 
+import com.example.demo.reservation.exception.ReservationNotFoundException;
+import com.example.demo.reservation.unavailableTerm.DateUnavailableException;
+import com.example.demo.room.Room;
+import com.example.demo.room.RoomNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,56 +44,45 @@ public class ReservationController {
 
 
     public ResponseEntity<?> createReservation(@PathVariable Long id, @Valid @RequestBody Reservation reservation) { //ReservationDTO
-        System.out.println(reservation.getDetails().toString());
-        Optional<ReservationDto> reservationOptional = reservationService.create(reservation, id);
-        if (reservationOptional.isPresent()) {
-            return ResponseEntity.ok(reservationOptional.get());
+        try {
+            return ResponseEntity.ok(reservationService.create(reservation, id));
+        } catch (RoomNotFoundException | DateUnavailableException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
     }
 
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('OWNER')")
     public ResponseEntity<?> updateReservation(@PathVariable Long id, @RequestBody Reservation reservation) {
-        Optional<ReservationDto> reservationDtoOptional = reservationService.updateReservation(id, reservation);
-        if (reservationDtoOptional.isPresent()) {
-            return ResponseEntity.ok(reservationDtoOptional.get());
+        try {
+            return ResponseEntity.ok(reservationService.updateReservation(id, reservation));
+        } catch (ReservationNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('OWNER')")
     public ResponseEntity<?> confirmPaymentOrDiscount(@PathVariable Long id, @RequestBody Map<String, Boolean> updates) {
-        for (Map.Entry<String, Boolean> stringBooleanEntry : updates.entrySet()) {
-            System.out.println(stringBooleanEntry.toString());
+        try {
+            return ResponseEntity.ok(reservationService.confirmPaymentOrDiscount(id, updates));
+        } catch (ReservationNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-                Optional<ReservationDto> reservationDtoOptional = reservationService.confirmPaymentOrDiscount(id, updates);
-        if (reservationDtoOptional.isPresent()) {
-            return ResponseEntity.ok(reservationDtoOptional.get());
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        Optional<ReservationDto> reservationDtoOptional = reservationService.confirmPaymentOrDiscount(id);
-//        if (reservationDtoOptional.isPresent()) {
-//            return ResponseEntity.ok(reservationDtoOptional.get());
-//        }
-//        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('OWNER')")
-    public ResponseEntity<Map<String, Boolean>> deleteReservation(@PathVariable Long id) {
-        Optional<ReservationDto> reservationDtoOptional = reservationService.deleteReservation(id);
-        if (reservationDtoOptional.isPresent()) {
-            Map<String, Boolean> response = new HashMap<>();
-            response.put("deleted", Boolean.TRUE);
-            return ResponseEntity.ok(response);
+    public ResponseEntity<?> deleteReservation(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(reservationService.deleteReservation(id));
+        } catch (ReservationNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 

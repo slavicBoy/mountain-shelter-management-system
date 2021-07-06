@@ -26,7 +26,9 @@ public class RoomService {
         LocalDate reservationDayStart = arrivalDetails.getReservationDayStart();
         LocalDate reservationDayEnd = arrivalDetails.getReservationDayEnd();
         int numberOfPeople = arrivalDetails.getNumberOfPeople();
+
         List<RoomDto> availableRoomsDto = new ArrayList<>();
+
         Map<Room, Integer> availableRooms = searchAvailableRooms.findAvailableRooms(reservationDayStart, reservationDayEnd, numberOfPeople);
         for (Map.Entry<Room, Integer> roomIntegerEntry : availableRooms.entrySet()) {
             Room roomKey = roomIntegerEntry.getKey();
@@ -34,14 +36,10 @@ public class RoomService {
             roomDto.setPlacesLeft(roomIntegerEntry.getValue());
             availableRoomsDto.add(roomDto);
         }
-        availableRoomsDto.forEach(System.out::println);
-
         return availableRoomsDto
                 .stream()
                 .sorted(Comparator.comparingInt(RoomDto::getForHowManyPeople))
                 .collect(Collectors.toList());
-
-
     }
 
     public RoomDto findById(Long id) {
@@ -53,7 +51,8 @@ public class RoomService {
 
     public List<RoomDto> findAll() {
         return roomRepository.findAll()
-                .stream().map(RoomMapper::toDto)
+                .stream()
+                .map(RoomMapper::toDto)
                 .collect(Collectors.toList());
     }
 

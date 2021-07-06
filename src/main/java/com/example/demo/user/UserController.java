@@ -52,7 +52,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('OWNER')")
-    public UserDto getReservationById(@PathVariable Long id) {
+    public UserDto getUserById(@PathVariable Long id) {
         return userService.findById(id);
     }
 

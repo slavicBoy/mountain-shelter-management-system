@@ -5,7 +5,6 @@ import com.example.demo.reservation.unavailableTerm.DateUnavailableException;
 import com.example.demo.reservation.unavailableTerm.UnavailableTerm;
 import com.example.demo.room.Room;
 import com.example.demo.room.RoomRepository;
-import com.example.demo.room.RoomTooSmallException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,13 +15,13 @@ import java.util.Optional;
 import java.util.stream.IntStream;
 
 @Component
-public class CheckAndSetDate {
+public class ReservationModelLogic {
 
     private RoomRepository roomRepository;
 
 
     @Autowired
-    public CheckAndSetDate(RoomRepository roomRepository) {
+    public ReservationModelLogic(RoomRepository roomRepository) {
         this.roomRepository = roomRepository;
     }
 
@@ -31,9 +30,8 @@ public class CheckAndSetDate {
         LocalDate reservationDayEnd = reservation.getReservationDayEnd();
         List<UnavailableTerm> unavailableTerms = roomRepository.getOne(room.getId()).getUnavailableTerms();
         List<UnavailableTerm> dateToCompare = new ArrayList<>();
-
         if (reservation.getHowManyPeople() - room.getForHowManyPeople() > 0) {
-            throw new RoomTooSmallException("Picked room is too small");
+            return Optional.empty();
         }
 
         for (UnavailableTerm unavailableTerm : unavailableTerms) {
@@ -67,7 +65,7 @@ public class CheckAndSetDate {
             int dateWithTheLeastAmountOfPeople = compareDate(dateToCompare);
             boolean arePlacesAvailable = arePlacesAvailable(reservation, dateWithTheLeastAmountOfPeople);
             if (!arePlacesAvailable) {
-                throw new DateUnavailableException("Date is unavailable");
+                return Optional.empty();
             } else {
                 UnavailableTerm unavailableTerm = createUnavailableTerm(reservationDayStart, reservationDayEnd);
                 setDateOnRoomWhenAnotherReservation(dateWithTheLeastAmountOfPeople, unavailableTerm, room, reservation);

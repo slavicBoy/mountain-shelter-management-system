@@ -82,4 +82,14 @@ public class UnavailableTerm {
     public void setPlacesAvailable(Integer placesAvailable) {
         this.placesAvailable = placesAvailable;
     }
+
+    @Override
+    public String toString() {
+        return "UnavailableTerm{" +
+                "startOfUnavailableTerm=" + startOfUnavailableTerm +
+                ", endOfUnavailableTerm=" + endOfUnavailableTerm +
+                ", placesAvailable=" + placesAvailable +
+                ", reservation=" + reservation +
+                '}';
+    }
 }
