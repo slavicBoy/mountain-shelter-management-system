@@ -24,7 +24,112 @@ public class ReservationDto {
     private int roomNumber;
     private int placesLeft;
 
+    private ReservationDto() {
+    }
 
+    public static ReservationDtoBuilder getBuilder() {
+        return new ReservationDtoBuilder();
+    }
+
+    static class ReservationDtoBuilder {
+
+        private ReservationDto reservationDto = new ReservationDto();
+
+        public ReservationDtoBuilder id(Long id) {
+            reservationDto.id = id;
+            return this;
+        }
+
+        public ReservationDtoBuilder howManyPeople(int howManyPeople) {
+            reservationDto.howManyPeople = howManyPeople;
+            return this;
+        }
+
+        public ReservationDtoBuilder firstName(String firstName) {
+            reservationDto.firstName = firstName;
+            return this;
+        }
+
+        public ReservationDtoBuilder lastName(String lastName) {
+            reservationDto.LastName = lastName;
+            return this;
+        }
+
+        public ReservationDtoBuilder phoneNumber(String phoneNumber) {
+            reservationDto.phoneNumber = phoneNumber;
+            return this;
+        }
+
+        public ReservationDtoBuilder reservationDayStart(LocalDate reservationDayStart) {
+            reservationDto.reservationStart = reservationDayStart;
+            return this;
+        }
+
+        public ReservationDtoBuilder reservationDayEnd(LocalDate reservationDayEnd) {
+            reservationDto.reservationEnd = reservationDayEnd;
+            return this;
+        }
+
+        public ReservationDtoBuilder email(String email) {
+            reservationDto.email = email;
+            return this;
+        }
+
+        public ReservationDtoBuilder extraInformation(String extraInformation) {
+            reservationDto.extraInformation = extraInformation;
+            return this;
+        }
+
+        public ReservationDtoBuilder reservationTime(LocalDate reservationTime) {
+            reservationDto.reservationTime = reservationTime;
+            return this;
+        }
+
+        public ReservationDtoBuilder amountToPay(BigDecimal amountToPay) {
+            reservationDto.amountToPay = amountToPay;
+            return this;
+        }
+
+        public ReservationDtoBuilder wasDiscountShowed(boolean wasDiscountShowed) {
+            reservationDto.wasDiscountShowed = wasDiscountShowed;
+            return this;
+        }
+
+        public ReservationDtoBuilder isAdvancePaid(boolean isAdvancePaid) {
+            reservationDto.isAdvancePaid = isAdvancePaid;
+            return this;
+        }
+
+        public ReservationDtoBuilder isAccommodationPaid(boolean isAccommodationPaid) {
+            reservationDto.isAccommodationPaid = isAccommodationPaid;
+            return this;
+        }
+
+        public ReservationDtoBuilder amountWithDiscount(BigDecimal amountWithDiscount) {
+            reservationDto.amountWithDiscount = amountWithDiscount;
+            return this;
+        }
+
+        public ReservationDtoBuilder roomNumber(int roomNumber) {
+            reservationDto.roomNumber = roomNumber;
+            return this;
+        }
+
+        public ReservationDtoBuilder placesLeft(int placesLeft) {
+            reservationDto.placesLeft = placesLeft;
+            return this;
+        }
+
+        public ReservationDtoBuilder nights(int nights) {
+            reservationDto.nights = nights;
+            return this;
+        }
+
+        public ReservationDto build() {
+            return reservationDto;
+        }
+
+    }
     public Long getId() {
         return id;
     }
