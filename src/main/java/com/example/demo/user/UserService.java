@@ -33,12 +33,16 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public void deleteUser(Long id) {
+    public UserDto deleteUser(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User with this id does not exist"));
         userRepository.deleteById(id);
+        return UserMapper.toDto(user);
     }
 
-    public UserDto updateUser(Long id, User updatedUser) {
-        User user = userRepository.getOne(id);
+    public UserDto updateUser(Long id, UserDto updatedUser) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User with this id does not exist"));
         user.setFirstName(updatedUser.getFirstName());
         user.setLastName(updatedUser.getLastName());
         user.setEmail(updatedUser.getEmail());
@@ -47,21 +51,26 @@ public class UserService {
     }
 
     public UserDto findById(Long id) {
-        return UserMapper.toDto(userRepository.getOne(id));
+        return userRepository.findById(id)
+                .map(UserMapper::toDto)
+                .orElseThrow(() -> new UserNotFoundException("User with this id does not exist"));
+
     }
 
     public int getAmountOfNotifications(Long id) {
-        User user = userRepository.getOne(id);
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User with this id does not exist"));
         return user.getNotification();
     }
 
     public void clearNotifications(Long id) {
-        User user = userRepository.getOne(id);
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User with this id does not exist"));
         user.setNotification(0);
         userRepository.save(user);
     }
 
-    public ResponseEntity<MessageResponse> registerUser(SignupRequest signUpRequest, PasswordEncoder encoder, RoleRepository roleRepository){
+    public ResponseEntity<MessageResponse> registerUser(SignupRequest signUpRequest, PasswordEncoder encoder, RoleRepository roleRepository) {
         if (userRepository.existsByUsername(signUpRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
@@ -103,7 +112,6 @@ public class UserService {
         return ResponseEntity.ok(new MessageResponse("Pracownik dodany do bazy!"));
 
     }
-
 
 
 }

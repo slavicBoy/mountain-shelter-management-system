@@ -21,14 +21,40 @@ public class UserDto {
     @Email
     private String email;
 
-    public UserDto(Long id, String firstName, String lastName, String email) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
+
+    private UserDto() {
     }
 
-    public UserDto() {
+    public static UserBuilder getBuilder() {
+        return new UserBuilder();
+    }
+
+    static class UserBuilder {
+        private UserDto user = new UserDto();
+
+        public UserBuilder id(Long id) {
+            user.id = id;
+            return this;
+        }
+
+        public UserBuilder firstName(String firstName) {
+            user.firstName = firstName;
+            return this;
+        }
+
+        public UserBuilder lastName(String lastName) {
+            user.lastName = lastName;
+            return this;
+        }
+
+        public UserBuilder email(String email) {
+            user.email = email;
+            return this;
+        }
+
+        public UserDto build() {
+            return user;
+        }
     }
 
     public Long getId() {

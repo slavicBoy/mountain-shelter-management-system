@@ -36,10 +36,9 @@ public class UserController {
     @PostMapping
     @PreAuthorize("hasRole('OWNER')")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-        try
-        {
+        try {
             return userService.registerUser(signUpRequest, encoder, roleRepository);
-        } catch (RoleNotFoundException e){
+        } catch (RoleNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -52,31 +51,51 @@ public class UserController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('OWNER')")
-    public UserDto getUserById(@PathVariable Long id) {
-        return userService.findById(id);
+    public ResponseEntity<?> getUserById(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(userService.findById(id));
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping("/notification/{id}")
     @PreAuthorize("hasRole('OWNER') or hasRole('WORKER')")
-    public int getNotification(@PathVariable Long id) {
-        return userService.getAmountOfNotifications(id);
+    public ResponseEntity<?> getNotification(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(userService.getAmountOfNotifications(id));
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping("/notification/clear/{id}")
     @PreAuthorize("hasRole('OWNER') or hasRole('WORKER')")
     public void clearNotification(@PathVariable Long id) {
-        userService.clearNotifications(id);
+        try {
+            userService.clearNotifications(id);
+        } catch (UserNotFoundException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('OWNER')")
-    public UserDto updateUser(@PathVariable Long id, @RequestBody User user) {
-        return userService.updateUser(id, user);
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
+        try {
+            return ResponseEntity.ok(userService.updateUser(id, userDto));
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('OWNER')")
-    public void deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(userService.deleteUser(id));
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
