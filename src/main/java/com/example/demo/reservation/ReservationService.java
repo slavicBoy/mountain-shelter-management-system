@@ -39,18 +39,19 @@ public class ReservationService {
         this.unavailableTermRepository = unavailableTermRepository;
     }
 
-    public ReservationDto create(Reservation reservation, Long id) {
+    public ReservationDto create(ReservationDto reservationDto, Long id) {
         Room room;
         room = roomRepository
                 .findById(id)
                 .orElseThrow(() -> new RoomNotFoundException("Room does not exist with this id"));
+
+        Reservation reservation = ReservationMapper.toEntity(reservationDto);
 
         Optional<UnavailableTerm> unavailableTermOptional = reservationModelLogic.isRoomAvailable(room, roomRepository, reservation);
         if (unavailableTermOptional.isEmpty()) {
             throw new DateUnavailableException("That date is unavailable");
         }
         UnavailableTerm unavailableTerm = unavailableTermOptional.get();
-
         reservationModelLogic.setObligatoryInfoForEveryReservation(reservation, unavailableTerm, room);
         reservationModelLogic.addNewNotification();
         reservationRepository.save(reservation);
@@ -72,12 +73,11 @@ public class ReservationService {
         return ReservationMapper.toDto(reservation);
     }
 
-    public ReservationDto updateReservation(Long id, Reservation updatedReservation) {
+    public ReservationDto updateReservation(Long id, ReservationDto updatedReservationDto) {
         Reservation reservation = reservationRepository
                 .findById(id)
                 .orElseThrow(() -> new ReservationNotFoundException("Reservation does not exist with this id"));
-
-        reservationModelLogic.setUpdatedInfos(reservation, updatedReservation);
+        reservationModelLogic.setUpdatedInfos(reservation, updatedReservationDto);
         reservationRepository.save(reservation);
         return ReservationMapper.toDto(reservation);
     }

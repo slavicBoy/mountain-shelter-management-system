@@ -47,9 +47,9 @@ public class ReservationController {
     }
 
 
-    public ResponseEntity<?> createReservation(@PathVariable Long id, @Valid @RequestBody Reservation reservation) { //ReservationDTO
+    public ResponseEntity<?> createReservation(@PathVariable Long id, @Valid @RequestBody ReservationDto reservationDto) {
         try {
-            return ResponseEntity.ok(reservationService.create(reservation, id));
+            return ResponseEntity.ok(reservationService.create(reservationDto, id));
         } catch (RoomNotFoundException | DateUnavailableException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -58,9 +58,9 @@ public class ReservationController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('OWNER')")
-    public ResponseEntity<?> updateReservation(@PathVariable Long id, @RequestBody Reservation reservation) {
+    public ResponseEntity<?> updateReservation(@PathVariable Long id, @RequestBody ReservationDto reservationDto) {
         try {
-            return ResponseEntity.ok(reservationService.updateReservation(id, reservation));
+            return ResponseEntity.ok(reservationService.updateReservation(id, reservationDto));
         } catch (ReservationNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

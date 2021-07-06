@@ -3,7 +3,7 @@ package com.example.demo.reservation;
 
 public class ReservationMapper {
 
-    public static ReservationDto toDto(Reservation reservation){
+    public static ReservationDto toDto(Reservation reservation) {
         ReservationDto dto = new ReservationDto();
         dto.setId(reservation.getId());
         dto.setFirstName(reservation.getFirstName());
@@ -27,8 +27,20 @@ public class ReservationMapper {
         return dto;
     }
 
-
-
-
-
+    public static Reservation toEntity(ReservationDto reservationDto) {
+        Reservation reservation = new Reservation();
+        reservation.setFirstName(reservationDto.getFirstName());
+        reservation.setLastName(reservationDto.getLastName());
+        reservation.setHowManyPeople(reservationDto.getHowManyPeople());
+        reservation.setReservationDayStart(reservationDto.getReservationStart());
+        reservation.setReservationDayEnd(reservationDto.getReservationEnd());
+        reservation.setPhoneNumber(reservationDto.getPhoneNumber());
+        reservation.setAmountToPay(reservationDto.getAmountToPay());
+        reservation.setAmountWithDiscount(reservationDto.getAmountWithDiscount());
+        reservation.setDetails(new ReservationDetails());
+        reservation.getDetails().setEmail(reservationDto.getEmail());
+        reservation.getDetails().setExtraInformation(reservationDto.getExtraInformation());
+        reservation.getDetails().setNights(reservationDto.getNights());
+        return reservation;
+    }
 }

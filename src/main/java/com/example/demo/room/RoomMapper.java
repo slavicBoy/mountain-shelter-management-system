@@ -14,10 +14,6 @@ public class RoomMapper {
         return dto;
     }
 
-    private static void setHowManyPlacesLeft(int placesAvailable, RoomDto dto) {
-           dto.setPlacesLeft(placesAvailable);
-    }
-
 
 
 }

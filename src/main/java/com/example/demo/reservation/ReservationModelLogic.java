@@ -113,12 +113,12 @@ public class ReservationModelLogic {
         unavailableTerm.setPlacesAvailable(dateWithTheLastAmountOfPeople - reservation.getHowManyPeople());
     }
 
-    public void setUpdatedInfos(Reservation reservation, Reservation updatedReservation) {
-        reservation.setFirstName(updatedReservation.getFirstName());
-        reservation.setLastName(updatedReservation.getLastName());
-        reservation.getDetails().setExtraInformation(updatedReservation.getDetails().getExtraInformation());
-        reservation.getDetails().setEmail(updatedReservation.getDetails().getEmail());
-        reservation.setPhoneNumber(updatedReservation.getPhoneNumber());
+    public void setUpdatedInfos(Reservation reservation, ReservationDto updatedReservationDto) {
+        reservation.setFirstName(updatedReservationDto.getFirstName());
+        reservation.setLastName(updatedReservationDto.getLastName());
+        reservation.getDetails().setExtraInformation(updatedReservationDto.getExtraInformation());
+        reservation.getDetails().setEmail(updatedReservationDto.getEmail());
+        reservation.setPhoneNumber(updatedReservationDto.getPhoneNumber());
     }
 
     public void setDiscountOrPayment(Reservation reservation, Map<String, Boolean> updates) {

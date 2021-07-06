@@ -169,4 +169,28 @@ public class ReservationDto {
     public void setPlacesLeft(int placesLeft) {
         this.placesLeft = placesLeft;
     }
+
+    @Override
+    public String toString() {
+        return "ReservationDto{" +
+                "id=" + id +
+                ", howManyPeople=" + howManyPeople +
+                ", firstName='" + firstName + '\'' +
+                ", LastName='" + LastName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", reservationStart=" + reservationStart +
+                ", reservationEnd=" + reservationEnd +
+                ", email='" + email + '\'' +
+                ", extraInformation='" + extraInformation + '\'' +
+                ", reservationTime=" + reservationTime +
+                ", amountToPay=" + amountToPay +
+                ", wasDiscountShowed=" + wasDiscountShowed +
+                ", nights=" + nights +
+                ", isAdvancePaid=" + isAdvancePaid +
+                ", isAccommodationPaid=" + isAccommodationPaid +
+                ", amountWithDiscount=" + amountWithDiscount +
+                ", roomNumber=" + roomNumber +
+                ", placesLeft=" + placesLeft +
+                '}';
+    }
 }
